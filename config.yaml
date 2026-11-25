@@ -18,4 +18,4 @@ model: claude-sonnet-5-5     # 想更省钱可以换成 claude-haiku-5-5
 max_searches: 6              # 每场雨最多搜几次
 
 # 网页地址（GitHub Pages 开起来之后填上，推送里的「打开篮子」会跳到这里）
-page_url: ""
+page_url: "https://x1528045870.github.io/mogu-yuhou/"
