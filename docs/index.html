@@ -123,7 +123,7 @@ function card(m,votes){
     ${btns?`<div class="vote">${btns}</div>`:""}</div></article>`;
 }
 async function render(){
-  const [rains,fb]=await Promise.all([load("rains.json"),load("feedback.json")]);
+  const [rains,fb,status]=await Promise.all([load("rains.json"),load("feedback.json"),load("status.json")]);
   const votes={};(Array.isArray(fb)?fb:[]).forEach(f=>votes[f.id]=f.verdict);
   const list=Array.isArray(rains)?rains:[];
   const last=list[list.length-1];
@@ -135,10 +135,11 @@ async function render(){
   const past=list.slice(0,-1).reverse();
   document.getElementById("past").innerHTML=past.length?past.map(r=>`<li><time>${esc(fmt(r.at))}</time>${r.mushrooms.map(m=>{const u=safe(m.url);return u?`<a href="${esc(u)}" target="_blank" rel="noopener"><span>${esc(m.species)}｜</span>${esc(m.title)}</a>`:""}).join("")}</li>`).join(""):`<li class="empty">只下过这一场，或者一场都还没下。</li>`;
   const foot=document.getElementById("foot");
+  const left=status&&status.source==="pool"&&Number.isFinite(status.pool_left)?`池子里还剩 ${status.pool_left} 朵。`:"";
   if(owner&&repo){
     const feed=`https://github.com/${owner}/${repo}/issues/new?title=${encodeURIComponent("喂 ")}&body=${encodeURIComponent("在标题「喂」后面写你想让蘑菇从哪里长出来。")}`;
-    foot.innerHTML=`<a class="feed" href="${esc(feed)}" target="_blank" rel="noopener">喂一口</a><small>喂的东西会在下一次看天时收进去。</small>`;
-  }
+    foot.innerHTML=`<a class="feed" href="${esc(feed)}" target="_blank" rel="noopener">喂一口</a><small>喂的东西会在下一次看天时收进去。${esc(left)}</small>`;
+  }else if(left){foot.innerHTML=`<small>${esc(left)}</small>`}
 }
 const drops=document.getElementById("drops");
 drops.innerHTML=Array.from({length:22},()=>`<i style="left:${(Math.random()*100).toFixed(1)}%;animation-delay:${(Math.random()*2.6).toFixed(2)}s;animation-duration:${(2+Math.random()*1.4).toFixed(2)}s"></i>`).join("");

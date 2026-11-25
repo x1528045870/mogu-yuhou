@@ -8,12 +8,12 @@ import pytest
 from rain import feedback as fb
 from rain import forage as fg
 from rain import main as mainmod
-from rain import notify, store, weather
+from rain import notify, pool, store, weather
 
 TZ = ZoneInfo("Australia/Sydney")
 CFG = {"timezone": "Australia/Sydney", "awake": [9, 23], "rains_per_week": 6, "min_gap_hours": 4,
        "max_per_day": 2, "drought_hours": 60, "lost_every": 3, "model": "claude-sonnet-5-5",
-       "max_searches": 6, "page_url": ""}
+       "max_searches": 6, "page_url": "", "source": "pool"}
 
 
 class Fixed:
@@ -226,6 +226,7 @@ def tmp_store(tmp_path, monkeypatch):
     monkeypatch.setattr(store, "FEED", feed)
     monkeypatch.setattr(store, "RAINS", tmp_path / "rains.json")
     monkeypatch.setattr(store, "FEEDBACK", tmp_path / "feedback.json")
+    monkeypatch.setattr(store, "STATUS", tmp_path / "status.json")
     return tmp_path
 
 
@@ -261,8 +262,8 @@ def test_process_issues(tmp_store):
 
 # ---------- 整条链 ----------
 
-def test_main_end_to_end(tmp_store, monkeypatch, capsys):
-    monkeypatch.setattr(store, "load_config", lambda: dict(CFG))
+def test_main_end_to_end_claude(tmp_store, monkeypatch, capsys):
+    monkeypatch.setattr(store, "load_config", lambda: dict(CFG, source="claude"))
     monkeypatch.setattr(mainmod.weather, "should_rain", lambda *a: (True, "下雨"))
     monkeypatch.setattr(fg, "call_claude", lambda prompt, cfg, key, post=None: (api_blocks(ITEMS), {"input_tokens": 30000, "output_tokens": 800, "searches": 4}))
     monkeypatch.setattr(mainmod, "forage", fg.forage)
@@ -288,3 +289,83 @@ def test_main_test_notify_spends_nothing(tmp_store, monkeypatch):
     mainmod.main(["--test-notify"])
     assert sent[0]["mushrooms"][0]["title"] == "这是一朵测试蘑菇"
     assert store.load_rains() == []
+
+
+# ---------- 蘑菇池（不连 API） ----------
+
+POOL_YAML = """
+- {species: 猴头菇, title: 文一, what: a, why: b, url: "https://a.com/1", source: s, edible: 能吃, feed: 文学}
+- {species: 猴头菇, title: 文二, what: a, why: b, url: "https://a.com/2", source: s, edible: 能吃, feed: 文学}
+- {species: 鸡枞, title: 设一, what: a, why: b, url: "https://b.com/1", source: s, edible: 先闻闻, feed: 设计}
+- {species: 竹荪, title: 乐一, what: a, why: b, url: "https://c.com/1", source: s, edible: 能吃, feed: 音乐}
+- {species: 松茸, title: 稀一, what: a, why: b, url: "https://d.com/1", source: s, edible: 能吃, feed: 信息茧房}
+- {species: 野蘑菇, title: 野一, what: a, why: b, url: "https://e.com/1", source: s, edible: 能吃, feed: 野}
+- {species: 鸡枞, title: 坏的, url: "http://no-https.com"}
+"""
+
+
+@pytest.fixture
+def pool_file(tmp_path):
+    f = tmp_path / "pool.yaml"
+    f.write_text(POOL_YAML, encoding="utf-8")
+    return f
+
+
+def test_load_pool_skips_bad_items(pool_file):
+    items = pool.load_pool(pool_file)
+    assert len(items) == 6 and items[5]["lost"] is True
+
+
+def test_pick_rules(pool_file):
+    items = pool.load_pool(pool_file)
+    rains = [{"at": at(9).isoformat(), "mushrooms": [{"url": "https://a.com/1/"}]}]
+    for seed in range(200):
+        picks = pool.pick(items, rains, [], need_lost=True, matsutake_ok=False, rng=random.Random(seed))
+        urls = [p["url"] for p in picks]
+        assert 1 <= len(picks) <= 3
+        assert "https://a.com/1" not in urls                    # 带过的不再带
+        assert "https://d.com/1" not in urls                    # 这周有过松茸
+        assert picks[0]["lost"] is True                         # 该带野蘑菇
+        assert len({p["species"] for p in picks}) == len(picks)  # 同场不重品种（候选够时）
+
+
+def test_feedback_shifts_weights(pool_file):
+    items = [p for p in pool.load_pool(pool_file) if not p["lost"] and p["species"] != "松茸"]
+    fbk = [{"feed": "文学", "verdict": "别再带"}, {"feed": "音乐", "verdict": "还想要"}]
+    rng, counts = random.Random(1), {"文学": 0, "音乐": 0, "设计": 0}
+    w = pool.feed_weights(fbk)
+    for _ in range(3000):
+        counts[pool.weighted_choice(items, w, rng)["feed"]] += 1
+    assert counts["音乐"] > counts["设计"] > counts["文学"]
+
+
+def test_main_pool_rain_and_preview(tmp_store, pool_file, monkeypatch, capsys):
+    monkeypatch.setattr(pool, "POOL", pool_file)
+    monkeypatch.setattr(store, "load_config", lambda: dict(CFG))
+    monkeypatch.setattr(fg, "call_claude", lambda *a, **k: pytest.fail("原型不该调用 API"))
+    sent = []
+    monkeypatch.setattr(notify, "send_all", lambda rain, cfg, env: sent.append(rain) or {})
+    monkeypatch.delenv("GITHUB_TOKEN", raising=False)
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    monkeypatch.setenv("GITHUB_REPOSITORY", "me/mogu-yuhou")
+
+    mainmod.main(["--preview"])
+    assert store.load_rains() == [] and not sent and "预演结束" in capsys.readouterr().out
+
+    mainmod.main(["--force"])
+    rains = store.load_rains()
+    assert len(rains) == 1 and sent and rains[0]["source"] == "pool"
+    status = json.loads(store.STATUS.read_text(encoding="utf-8"))
+    assert status["pool_total"] == 6 and status["pool_left"] == 6 - len(rains[0]["mushrooms"])
+    assert all("issues/new" in m["links"]["好吃"] for m in rains[0]["mushrooms"])
+
+
+def test_empty_pool_means_no_rain(tmp_store, tmp_path, monkeypatch, capsys):
+    empty = tmp_path / "empty.yaml"
+    empty.write_text("[]", encoding="utf-8")
+    monkeypatch.setattr(pool, "POOL", empty)
+    monkeypatch.setattr(store, "load_config", lambda: dict(CFG))
+    monkeypatch.setattr(notify, "send_all", lambda *a: pytest.fail("不该发"))
+    monkeypatch.delenv("GITHUB_TOKEN", raising=False)
+    mainmod.main(["--force"])
+    assert "池子空了" in capsys.readouterr().out and store.load_rains() == []

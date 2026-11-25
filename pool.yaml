@@ -1,0 +1,219 @@
+# 蘑菇池：原型阶段不连 API，雨从这里随机带蘑菇。
+# 每一朵的链接都来自真实搜索结果，2026-11-25 采集。
+# 想补蘑菇：照下面的格式往后加；带过的不会再带（按链接判断）。
+#
+# species：猴头菇（慢读）/ 鸡枞（新鲜事）/ 竹荪（好看的）/ 松茸（稀有的好东西）/ 野蘑菇（喂过的范围之外）
+# edible：能吃（可靠、可核实）/ 先闻闻（单一来源、预印本或观点）
+# feed：对应 feed.yaml 里喂过的哪一块（文学 / 设计 / 音乐 / 信息茧房）；野蘑菇写「野」
+
+# ---------- 文学 ----------
+- species: 松茸
+  title: 当文学的目光遇上人类学的透镜——走进莫言《人呐》京东图书分享会
+  what: 莫言新书《人呐》收了 81 篇短小说，最短的一篇只有 71 个字。
+  why: 他说起因之一是自己一度天天刷短视频，正撞上你文章里写的那个问题。
+  url: https://www.news.cn/book/20260809/eddd3d2b515b4c3483c03a026d8ea33c/c.html
+  source: 新华网
+  edible: 能吃
+  feed: 文学
+
+- species: 猴头菇
+  title: 莫言接受本报专访，谈AI以及其他——“作家最宝贵的是原创能力”
+  what: 莫言在牛津接受专访，谈 AI 会不会取代作家。
+  why: 对应文学里的莫言，也和你手上这个 AI 产品有关。
+  url: https://www.news.cn/politics/20260529/eb74650f15c84ceda9983be8340bb1ac/c.html
+  source: 新华每日电讯
+  edible: 能吃
+  feed: 文学
+
+- species: 猴头菇
+  title: "‘One Hundred Years of Solitude – Part 2’ Netflix Review: Family Drama Meets Historical Reckoning"
+  what: 《百年孤独》剧集第二部的长评，说后半部更多落在马孔多的政治和经济变迁上。
+  why: 对应文学里的马尔克斯改编。只是一家影评的看法，先闻闻。
+  url: https://www.micropsiacine.com/2026/08/one-hundred-years-of-solitude-part-2-netflix-review-family-drama-meets-historical-reckoning/
+  source: Micropsia
+  edible: 先闻闻
+  feed: 文学
+
+- species: 鸡枞
+  title: "The Idiot: A New Translation"
+  what: 译过《卡拉马佐夫兄弟》的 Michael R. Katz 出了《白痴》的新英译本。
+  why: 对应文学里的陀思妥耶夫斯基。
+  url: https://wwnorton.co.uk/books/9781324096375-the-idiot
+  source: W. W. Norton
+  edible: 能吃
+  feed: 文学
+
+- species: 猴头菇
+  title: The Multifaceted Advice of the Zhuangzi
+  what: 译者自述：照郭象的注来重译《庄子》，把正文和注合在一起读。
+  why: 对应庄子与道家，一种不太常见的读法。
+  url: https://cupblog.org/?p=43079
+  source: Columbia University Press
+  edible: 能吃
+  feed: 文学
+
+# ---------- 设计 ----------
+- species: 鸡枞
+  title: Teenage Engineering announces plans to stop making synthesisers
+  what: 靠 OP-1 出名的 Teenage Engineering 说，打算不再做合成器了。
+  why: 对应硬件和工业设计：一家设计驱动的硬件公司，为什么要甩掉自己的成名作。
+  url: https://djmag.com/tech/teenage-engineering-announces-plans-stop-making-synthesisers
+  source: DJ Mag
+  edible: 能吃
+  feed: 设计
+
+- species: 鸡枞
+  title: iFixit tears down iPhone Duo, finds possible causes of early screen failures
+  what: iFixit 拆了苹果第一台折叠屏，给出它评过的折叠屏里最高的可修复分。
+  why: 对应硬件拆解，文中还有屏幕早期故障的线索。
+  url: https://9to5mac.com/2026/10/25/ifixit-tears-down-iphone-duo-finds-possible-causes-of-early-screen-failures/
+  source: 9to5Mac
+  edible: 能吃
+  feed: 设计
+
+- species: 竹荪
+  title: The 2026 Core77 Design Awards Speculative Design Winners
+  what: 2026 年 Core77 设计奖思辨设计类的获奖作品。
+  why: 对应思辨设计。
+  url: https://www.core77.com/posts/144452/The-2026-Core77-Design-Awards-Speculative-Design-Winners
+  source: Core77
+  edible: 能吃
+  feed: 设计
+
+- species: 竹荪
+  title: The 2026 Core77 Design Awards Consumer Technology Winners
+  what: 2026 年 Core77 消费科技类获奖作品，专业组冠军是 Pentagram 给 KARRI 做的设计。
+  why: 对应消费电子和工业设计。
+  url: https://www.core77.com/posts/144498/The-2026-Core77-Design-Awards-Consumer-Technology-Winners
+  source: Core77
+  edible: 能吃
+  feed: 设计
+
+- species: 竹荪
+  title: "Superflux Craftocene: a speculative future unfolds in Vienna"
+  what: Superflux 在维也纳世界博物馆办的思辨设计展，展期已过，图很多。
+  why: 对应思辨设计，这家工作室是这个领域的代表之一。
+  url: https://hubemag.com/superflux-craftocene-a-speculative-future-unfolds-in-vienna
+  source: HUBE
+  edible: 能吃
+  feed: 设计
+
+# ---------- 音乐 ----------
+- species: 鸡枞
+  title: 24日在影院举办全球首映会，周杰伦最新专辑《太阳之子》即将发行
+  what: 周杰伦第 16 张专辑《太阳之子》，名字是张学友起的。
+  why: 2023 年香港连日大雨，他每场演唱会开演前雨都停了。对应音乐，也对应这场雨。
+  url: https://www.yzwb.net/news/wy/202603/t20260318_332696.html
+  source: 紫牛新闻
+  edible: 能吃
+  feed: 音乐
+
+- species: 鸡枞
+  title: Radiohead announce first Australian tour in 15 years
+  what: Radiohead 宣布 2027 年来澳洲巡演，15 年来第一次。
+  why: 对应音乐里的 Radiohead。
+  url: https://www.theleader.com.au/story/9345665/radiohead-announce-first-australian-tour-in-15-years/
+  source: Australian Associated Press
+  edible: 能吃
+  feed: 音乐
+
+- species: 猴头菇
+  title: 世代摇滚 呈现更多元姿态
+  what: 从黑豹乐队创始人郭传林离世说起，写中国摇滚的代际交替。
+  why: 对应国摇。
+  url: https://www.xinhuanet.com/ent/20260203/c0b1433741f6497c9a6073fb4f0c3dca/c.html
+  source: 北京青年报
+  edible: 能吃
+  feed: 音乐
+
+# ---------- 信息茧房 ----------
+- species: 松茸
+  title: arXiv 2607.15284：用透明的推荐界面，让人意识到自己在过滤气泡里
+  what: 一项用户研究：把推荐依据摊开给人看，用户更容易发现自己在过滤气泡里。
+  why: 直接对应你的产品：每朵蘑菇都写「为什么带给你」。预印本，先闻闻。
+  url: https://arxiv.org/abs/2607.15284
+  source: arXiv
+  edible: 先闻闻
+  feed: 信息茧房
+
+- species: 猴头菇
+  title: Short-term exposure to filter-bubble recommendation systems has limited polarization effects
+  what: 在 YouTube 上做的自然实验：短期接触过滤气泡式推荐，没测出一致的极化效果。
+  why: 这是你文章前提的反方证据，值得认真读。
+  url: https://www.hks.harvard.edu/publications/short-term-exposure-filter-bubble-recommendation-systems-has-limited-polarization
+  source: Harvard Kennedy School / PNAS
+  edible: 能吃
+  feed: 信息茧房
+
+- species: 猴头菇
+  title: FairUMAP 2026 论文：过滤气泡的三种操作化原型
+  what: 把「过滤气泡」拆成三种：算法曝光、用户行为收窄、偏好强化。
+  why: 你文章里「信息茧房」用得比较宽，这篇能帮你把概念拆开。
+  url: https://ceur-ws.org/Vol-4206/FairUMAP2026-1.pdf
+  source: CEUR Workshop Proceedings
+  edible: 能吃
+  feed: 信息茧房
+
+- species: 猴头菇
+  title: ChatGPT develops a Pulse
+  what: 专栏谈 ChatGPT Pulse：AI 变得更主动了，但可能也只是又多了一条要刷的信息流。
+  why: 对应 AI 主动推送，也正是你第二重担心的方向。专栏观点，先闻闻。
+  url: https://www.platformer.news/chatgpt-pulse-proactive-ai/
+  source: Platformer
+  edible: 先闻闻
+  feed: 信息茧房
+
+- species: 鸡枞
+  title: This is hands down the worst new AI tool of 2025 — and I regret ever turning it on
+  what: 一位评测者列出不再用 ChatGPT Pulse 的五个理由。
+  why: 竞品的差评，做产品时值得对照着看。个人评测，先闻闻。
+  url: https://www.tomsguide.com/ai/i-test-ai-for-a-living-and-this-is-hands-down-the-worst-new-ai-tool-of-2025
+  source: Tom's Guide
+  edible: 先闻闻
+  feed: 信息茧房
+
+# ---------- 野蘑菇（喂过的范围之外） ----------
+- species: 野蘑菇
+  title: Celebrate as Voyager 1 reaches 1 light-day from Earth! Here’s how
+  what: 1977 年出发的旅行者 1 号，11 月 18 日离地球满一光日。
+  why: 一个走了快五十年、还在往回发信号的远行者。
+  url: https://earthsky.org/space/voyager-1-1-light-day-from-earth-november-17-18-2026/
+  source: EarthSky
+  edible: 能吃
+  feed: 野
+
+- species: 野蘑菇
+  title: Petrichor
+  what: 雨后那股土腥味有名字，来自植物分泌的油脂和土壤细菌。
+  why: 雨刚停，顺便闻一闻。
+  url: https://metoffice.gov.uk/learning/precipitation/rain/petrichor
+  source: Met Office
+  edible: 能吃
+  feed: 野
+
+- species: 野蘑菇
+  title: After Dinosaurs Died, a Massive Fungus Inherited the Forests
+  what: 云南森林里发现的新物种，子实体能长到半米高，自成一个新科。
+  why: 这一朵真的是野蘑菇。
+  url: https://nautil.us/after-dinosaurs-died-a-massive-fungus-inherited-the-forests-1285822
+  source: Nautilus
+  edible: 能吃
+  feed: 野
+
+- species: 野蘑菇
+  title: See Stunning Images of the Total Solar Eclipse From Nat Geo Photographers
+  what: 8 月 12 日的日全食，欧洲 1999 年以来的第一次，国家地理摄影师拍的。
+  why: 不在你喂的范围里，但好看。
+  url: https://www.nationalgeographic.com/photography/article/total-solar-eclipse-europe-2026-photos
+  source: National Geographic
+  edible: 能吃
+  feed: 野
+
+- species: 野蘑菇
+  title: All the Award-Winning Photos From Nature Photographer of the Year 2026
+  what: 年度自然摄影师揭晓，冠军是一片睡莲叶，旁边是它结冰的「复本」。
+  why: 一周前刚出的好看东西。
+  url: https://petapixel.com/2026/11/16/all-the-award-winning-photos-from-nature-photographer-of-the-year-2026/
+  source: PetaPixel
+  edible: 能吃
+  feed: 野

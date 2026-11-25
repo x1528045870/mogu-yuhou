@@ -11,7 +11,8 @@ on:
         options:
           - 检查天气
           - 求雨（现在就下一场）
-          - 测试推送（不花钱）
+          - 预演（照常挑蘑菇，不送不存）
+          - 测试推送（发一朵测试蘑菇）
         default: 检查天气
 
 permissions:
@@ -38,7 +39,8 @@ jobs:
       - name: 看天
         env:
           FORCE: ${{ inputs.mode == '求雨（现在就下一场）' }}
-          TEST_NOTIFY: ${{ inputs.mode == '测试推送（不花钱）' }}
+          PREVIEW: ${{ inputs.mode == '预演（照常挑蘑菇，不送不存）' }}
+          TEST_NOTIFY: ${{ inputs.mode == '测试推送（发一朵测试蘑菇）' }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
           NTFY_SERVER: ${{ secrets.NTFY_SERVER }}

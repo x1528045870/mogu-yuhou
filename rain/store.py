@@ -8,6 +8,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "docs" / "data"
 RAINS = DATA / "rains.json"
 FEEDBACK = DATA / "feedback.json"
+STATUS = DATA / "status.json"
 CONFIG = ROOT / "config.yaml"
 FEED = ROOT / "feed.yaml"
 
@@ -40,6 +41,10 @@ def save_feedback(items):
     _write_json(FEEDBACK, items)
 
 
+def save_status(status):
+    _write_json(STATUS, status)
+
+
 def load_config():
     cfg = yaml.safe_load(CONFIG.read_text(encoding="utf-8")) or {}
     cfg.setdefault("timezone", "Australia/Sydney")
@@ -49,6 +54,7 @@ def load_config():
     cfg.setdefault("max_per_day", 2)
     cfg.setdefault("drought_hours", 60)
     cfg.setdefault("lost_every", 3)
+    cfg.setdefault("source", "pool")
     cfg.setdefault("model", "claude-sonnet-5-5")
     cfg.setdefault("max_searches", 6)
     cfg.setdefault("page_url", "")

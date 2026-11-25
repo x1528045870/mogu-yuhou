@@ -8,6 +8,12 @@ max_per_day: 2               # 一天最多几场
 drought_hours: 60            # 超过这么久没下雨，下雨的概率提高
 lost_every: 3                # 大约每几场雨带一朵野蘑菇（喂过的范围之外）
 
+# 蘑菇从哪来：
+#   pool   = 从 pool.yaml 蘑菇池里带（原型阶段用这个，不连 API，不花钱）
+#   claude = 让 Claude 联网现采（要在 Secrets 里配 ANTHROPIC_API_KEY）
+source: pool
+
+# 以下两项只在 source: claude 时有用
 model: claude-sonnet-5-5     # 想更省钱可以换成 claude-haiku-5-5
 max_searches: 6              # 每场雨最多搜几次
 
