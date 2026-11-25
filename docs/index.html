@@ -4,155 +4,162 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>蘑菇·雨后</title>
-<link rel="preload" href="fonts/fusion-pixel-10px-sc.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;900&display=swap" rel="stylesheet">
 <style>
-/* VOICE: 可爱、慢，像在像素小游戏里雨后去林子边采蘑菇
-   IDEA: 一块草地，雨停后冒出几朵；采进篮子，翻开像物品说明的小卡片
-   PICTURE: 原创 16×16 像素蘑菇站在草地上一跳一跳，点一下飞进篮子 +1
-   COLOUR and TYPE: 草绿、天蓝、羊皮纸、木头棕，菌盖橙红点睛；全站像素中文字体 Fusion Pixel（OFL）
-   LAYOUT: 天 → 草地 → 篮子 → 图鉴 → 以前的雨；「喂一口」木牌浮在右下 */
-@font-face{font-family:"Fusion Pixel";src:url(fonts/fusion-pixel-10px-sc.woff2) format("woff2");font-display:swap}
+/* VOICE: 正经、安静、有手感，像一本雨后采集笔记
+   IDEA: 博物学家的标本册：雨停后从湿土里长出几朵，按住采下，飞进笔记变成一张编了号的标本卡
+   PICTURE: 一条湿土带，细线图鉴插图的蘑菇慢慢长出来；按住时绕一圈墨线
+   COLOUR and TYPE: 白纸、墨绿黑；苔绿=能吃，琥珀=先闻闻，印章红只给你的反馈；全站思源宋体
+   LAYOUT: 刊头 → 湿土 → 这场雨的标本 → 雨历 → 标本柜；「喂一口」索引卡浮在右下 */
 :root{color-scheme:light dark;
-  --ink:light-dark(#3b2416,#f3e6c8);--soft:light-dark(#86613f,#c9b28a);
-  --paper:light-dark(#fbefd0,#3a2e22);--paper2:light-dark(#f2dfb3,#2f251b);--shade:light-dark(#e3c993,#2a2118);
-  --edge:light-dark(#5a3a22,#120b06);--wood:light-dark(#c98a4b,#8f5d31);--wood2:light-dark(#8a542a,#5e3b1f);
-  --leaf:light-dark(#3f8f3a,#5fae47);--amber:light-dark(#c9821a,#d99a2e);
-  --sky1:light-dark(#9fd6ee,#16213a);--sky2:light-dark(#b9e2f2,#1c2946);--sky3:light-dark(#d4eef6,#233252);
-  --grass:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'><rect width='16' height='16' fill='%237cc04f'/><rect x='7' y='9' width='1' height='2' fill='%235fa13a'/><rect x='4' y='5' width='1' height='2' fill='%235fa13a'/><rect x='15' y='10' width='1' height='2' fill='%235fa13a'/><rect x='2' y='9' width='1' height='2' fill='%235fa13a'/><rect x='0' y='14' width='1' height='2' fill='%235fa13a'/><rect x='15' y='4' width='1' height='2' fill='%235fa13a'/><rect x='7' y='3' width='1' height='2' fill='%235fa13a'/><rect x='12' y='11' width='1' height='2' fill='%235fa13a'/><rect x='0' y='10' width='1' height='2' fill='%235fa13a'/><rect x='2' y='2' width='1' height='2' fill='%235fa13a'/><rect x='10' y='14' width='1' height='2' fill='%235fa13a'/><rect x='1' y='9' width='1' height='1' fill='%23a3dc6e'/><rect x='13' y='12' width='1' height='1' fill='%23a3dc6e'/><rect x='11' y='3' width='1' height='1' fill='%23a3dc6e'/><rect x='1' y='4' width='1' height='1' fill='%23a3dc6e'/><rect x='8' y='7' width='1' height='1' fill='%23a3dc6e'/></svg>")}
-@media(prefers-color-scheme:dark){:root{--grass:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'><rect width='16' height='16' fill='%232d4a27'/><rect x='7' y='9' width='1' height='2' fill='%23223a1e'/><rect x='4' y='5' width='1' height='2' fill='%23223a1e'/><rect x='15' y='10' width='1' height='2' fill='%23223a1e'/><rect x='2' y='9' width='1' height='2' fill='%23223a1e'/><rect x='0' y='14' width='1' height='2' fill='%23223a1e'/><rect x='15' y='4' width='1' height='2' fill='%23223a1e'/><rect x='7' y='3' width='1' height='2' fill='%23223a1e'/><rect x='12' y='11' width='1' height='2' fill='%23223a1e'/><rect x='0' y='10' width='1' height='2' fill='%23223a1e'/><rect x='2' y='2' width='1' height='2' fill='%23223a1e'/><rect x='10' y='14' width='1' height='2' fill='%23223a1e'/><rect x='1' y='9' width='1' height='1' fill='%233e6334'/><rect x='13' y='12' width='1' height='1' fill='%233e6334'/><rect x='11' y='3' width='1' height='1' fill='%233e6334'/><rect x='1' y='4' width='1' height='1' fill='%233e6334'/><rect x='8' y='7' width='1' height='1' fill='%233e6334'/></svg>")}}
+  --paper:light-dark(#ffffff,#141713);--paper2:light-dark(#f5f6f2,#1b1f1a);--ink:light-dark(#1d241d,#e9ece4);--soft:light-dark(#5d665a,#a3ac9e);
+  --rule:light-dark(#dfe3da,#2b312a);--moss:light-dark(#3f6b34,#8dbb74);--amber:light-dark(#a8690f,#e0a447);--seal:light-dark(#c63a2b,#ef6a57);
+  --soil:light-dark(#4b4136,#2a241e);--soil2:light-dark(#3a3229,#1f1a15)}
 *{box-sizing:border-box;min-width:0}
-html{background:var(--sky3)}
-body{margin:0;color:var(--ink);font:20px/1.5 "Fusion Pixel","PingFang SC","Microsoft YaHei",sans-serif;-webkit-font-smoothing:none;
-  background:var(--grass) 0 0/64px 64px;image-rendering:pixelated;overflow-x:clip;padding-bottom:calc(110px + env(safe-area-inset-bottom))}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.75 "Noto Serif SC","Noto Serif CJK SC","Source Han Serif SC","Songti SC","STSong",serif;overflow-x:clip;padding-bottom:calc(110px + env(safe-area-inset-bottom))}
 a{color:inherit}button{font:inherit;color:inherit}
-.wrap{max-width:720px;margin:0 auto;padding:0 max(4vw,14px)}
-.spr{display:block;image-rendering:pixelated}
-/* 像素边框：4px 描边 + 切角 */
-.px{background:var(--paper);border:4px solid var(--edge);box-shadow:inset 0 -4px 0 var(--shade);
-  clip-path:polygon(0 8px,4px 8px,4px 4px,8px 4px,8px 0,calc(100% - 8px) 0,calc(100% - 8px) 4px,calc(100% - 4px) 4px,calc(100% - 4px) 8px,100% 8px,100% calc(100% - 8px),calc(100% - 4px) calc(100% - 8px),calc(100% - 4px) calc(100% - 4px),calc(100% - 8px) calc(100% - 4px),calc(100% - 8px) 100%,8px 100%,8px calc(100% - 4px),4px calc(100% - 4px),4px calc(100% - 8px),0 calc(100% - 8px))}
-.btn{background:var(--wood);color:#fff8e6;border:4px solid var(--edge);box-shadow:inset 0 -4px 0 var(--wood2),inset 0 4px 0 rgb(255 255 255/.22);
-  clip-path:polygon(0 4px,4px 4px,4px 0,calc(100% - 4px) 0,calc(100% - 4px) 4px,100% 4px,100% calc(100% - 4px),calc(100% - 4px) calc(100% - 4px),calc(100% - 4px) 100%,4px 100%,4px calc(100% - 4px),0 calc(100% - 4px));
-  min-height:44px;padding:2px 14px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;text-shadow:2px 2px 0 var(--wood2)}
-.btn:active{transform:translateY(2px);box-shadow:inset 0 -2px 0 var(--wood2)}
-.btn:focus-visible{outline:4px solid #fff3b0;outline-offset:2px}
-.btn.on{background:var(--leaf);box-shadow:inset 0 -4px 0 rgb(0 0 0/.25)}
-.out{color:#fff8e6;text-shadow:2px 0 var(--edge),-2px 0 var(--edge),0 2px var(--edge),0 -2px var(--edge),2px 2px var(--edge),-2px -2px var(--edge),2px -2px var(--edge),-2px 2px var(--edge)}
-.tag{display:inline-block;padding:2px 10px;font-size:20px}
-/* 天 */
-.sky{position:relative;overflow:hidden;padding-top:env(safe-area-inset-top);
-  background:linear-gradient(var(--sky1) 0 34%,var(--sky2) 34% 68%,var(--sky3) 68%);border-bottom:4px solid var(--edge)}
-.sky .wrap{position:relative;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;padding-block:28px 20px}
-.cloud{position:absolute;width:96px;height:96px;opacity:.9}@media(prefers-color-scheme:dark){.cloud{opacity:.3}}
-.deco{position:absolute;width:48px;height:48px;transform:translateX(-50%);pointer-events:none}.cloud .spr{width:100%;height:100%}
-h1{font-weight:400;font-size:40px;line-height:1.2;margin:0 0 10px}
-.drops{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .8s steps(4)}
-.raining .drops{opacity:1}
-.drops i{position:absolute;top:-24px;width:4px;height:12px;background:#6fb8ea;box-shadow:0 4px 0 #a9dcfb inset;animation:fall .9s steps(9) infinite}
-@keyframes fall{to{transform:translate(-36px,260px)}}
-.bag{display:flex;flex-direction:column;align-items:center;background:none;border:0;cursor:pointer;padding:0;flex:none}
-.bag .spr{width:64px;height:64px}
-.bag b{font-weight:400;margin-top:-8px}
-.bump{animation:bump .35s steps(3)}
-@keyframes bump{50%{transform:scale(1.25)}}
-/* 草地 */
-.field{position:relative;height:200px;overflow:hidden}
-.field.empty{height:120px}
-.shroom{position:absolute;bottom:22px;transform:translateX(-50%);background:none;border:0;padding:0;cursor:pointer;text-align:center;-webkit-tap-highlight-color:transparent}
-.shroom .spr{width:64px;height:64px;margin:0 auto;animation:bob 1.1s steps(2) infinite}
-.shroom::after{content:"";display:block;width:40px;height:6px;margin:-6px auto 0;background:rgb(0 0 0/.22)}
-.shroom .tag{margin-top:6px;font-size:20px}
-.shroom:hover .spr,.shroom:focus-visible .spr{animation:none;transform:translateY(-6px)}
-.shroom:focus-visible{outline:4px dashed #fff3b0;outline-offset:4px}
-.shroom.up{transition:transform .4s steps(4),opacity .4s steps(4);transform:translate(-50%,-80px) scale(.4);opacity:0}
-@keyframes bob{50%{transform:translateY(-4px)}}
-.float{position:absolute;transform:translateX(-50%);pointer-events:none;animation:floatup 1s steps(8) forwards;white-space:nowrap}
-@keyframes floatup{to{transform:translate(-50%,-56px);opacity:0}}
-.say{text-align:center;margin:0;padding:0 0 18px}
-/* 篮子和卡片 */
-h2{font-weight:400;font-size:30px;line-height:1.2;margin:34px 0 14px}
-.basket{display:grid;gap:16px}
-.m{display:grid;grid-template-columns:48px minmax(0,1fr);gap:14px;padding:16px 16px 18px}
-.m>.spr{width:48px;height:48px}
-.m.new{animation:land .45s steps(5)}
-@keyframes land{from{transform:translateY(-16px);opacity:0}}
-.meta{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;color:var(--soft)}
-.badge{color:#fff8e6;padding:0 8px;background:var(--leaf);box-shadow:inset 0 -2px 0 rgb(0 0 0/.25)}
-.badge.sniff{background:var(--amber)}
-.seen{color:var(--leaf)}
-.m h3{font-weight:400;font-size:20px;line-height:1.5;margin:6px 0}
-.m h3 a{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:5px;text-decoration-color:var(--wood)}
-.m p{margin:0}.why{color:var(--soft);margin-top:6px!important}
-.vote{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.vote .btn{min-height:40px;padding:0 10px}
-.end{margin:16px 0 0;text-align:center}
-/* 图鉴 */
-.guide{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;padding:14px}
-.slot{background:var(--paper2);border:0;box-shadow:inset 4px 4px 0 var(--shade),inset -4px -4px 0 rgb(255 255 255/.25);padding:12px 4px 8px;cursor:pointer;text-align:center;position:relative}
-.slot:focus-visible{outline:4px solid var(--wood);outline-offset:0}
-.slot .spr{width:48px;height:48px;margin:0 auto}
-.slot.none .spr{filter:brightness(0);opacity:.3}
-.slot b{display:block;font-weight:400}
-.slot small{display:block;color:var(--soft);font-size:20px}
-.past{list-style:none;margin:0;padding:6px 16px}
-.past li{padding:12px 0;border-top:4px dotted var(--shade)}.past li:first-child{border-top:0}
-.past time{color:var(--soft)}
-.past a{display:flex;gap:8px;align-items:center;text-decoration:none;margin-top:4px}
-.past a .spr{width:32px;height:32px;flex:none}
-.foot{text-align:center;margin:36px 0 0}
-.fab{position:fixed;right:max(14px,env(safe-area-inset-right));bottom:calc(16px + env(safe-area-inset-bottom));z-index:5;font-size:20px;min-height:56px;padding:0 20px}
-/* 弹出卡 */
-.sheet{position:fixed;inset:0;background:rgb(20 12 6/.5);display:flex;align-items:flex-end;justify-content:center;z-index:10}
+.wrap{max-width:760px;margin:0 auto;padding:0 max(5vw,18px)}
+/* 刊头 */
+.mast{position:relative;overflow:hidden;border-bottom:1px solid var(--ink);padding-top:env(safe-area-inset-top)}
+.mast .wrap{padding-block:clamp(28px,6vw,56px) 20px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:end}
+h1{font-weight:900;font-size:clamp(40px,8vw,56px);line-height:1.05;margin:0;letter-spacing:.02em}
+.sub{margin:10px 0 0;color:var(--soft)}
+.when{margin:2px 0 0;font-weight:600}
+.stats{text-align:right;color:var(--soft);font-size:15px;line-height:1.6;white-space:nowrap}
+.stats b{display:block;color:var(--ink);font-size:28px;font-weight:600;line-height:1.1}
+.rain{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity 1.2s}
+.raining .rain{opacity:1}
+.rain i{position:absolute;top:-60px;width:1px;height:46px;background:linear-gradient(transparent,var(--soft));transform:rotate(14deg);animation:fall .7s linear infinite}
+@keyframes fall{to{translate:-40px 360px}}
+/* 湿土 */
+.ground{position:relative;height:250px;margin:0 calc(-1*max(5vw,18px))}
+.ground.empty{height:96px}
+.ground::after{content:"";position:absolute;left:0;right:0;bottom:0;height:58px;background:linear-gradient(var(--soil),var(--soil2));
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 20' preserveAspectRatio='none'%3E%3Cpath d='M0 6 Q40 0 80 5 T160 4 T240 7 T320 3 T400 6 V20 H0Z'/%3E%3C/svg%3E") top/100% 14px no-repeat,linear-gradient(#000,#000) 0 13px/100% 100% no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 20' preserveAspectRatio='none'%3E%3Cpath d='M0 6 Q40 0 80 5 T160 4 T240 7 T320 3 T400 6 V20 H0Z'/%3E%3C/svg%3E") top/100% 14px no-repeat,linear-gradient(#000,#000) 0 13px/100% 100% no-repeat}
+.shroom{position:absolute;bottom:40px;width:112px;margin-left:-56px;background:none;border:0;padding:0;cursor:grab;z-index:1;touch-action:none;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+.shroom .ill{width:112px;height:134px;display:block;transform-origin:50% 100%;animation:grow 1.4s cubic-bezier(.2,.9,.25,1.15) both}
+@keyframes grow{from{transform:scale(.15,.05);opacity:0}}
+.shroom .ring{position:absolute;left:50%;bottom:-14px;width:84px;height:28px;translate:-50% 0;overflow:visible}
+.ring ellipse{fill:none;stroke:light-dark(#f3ede2,#d9cfbf);stroke-width:2;stroke-dasharray:180;stroke-dashoffset:180;transition:stroke-dashoffset .18s}
+.holding .ring ellipse{stroke-dashoffset:0;transition:stroke-dashoffset .7s linear}
+.holding .ill{transform:translateY(-3px) rotate(-1.5deg);transition:transform .7s}
+.shroom:focus-visible{outline:2px solid var(--moss);outline-offset:4px;border-radius:8px}
+.shroom .nm{position:absolute;left:50%;bottom:-38px;translate:-50% 0;font-size:14px;color:light-dark(#efe7da,#cfc4b4);white-space:nowrap}
+.hint{margin:14px 0 0;color:var(--soft);font-size:15px;text-align:center}
+.ghost{position:fixed;z-index:30;pointer-events:none;margin:0}
+.ill{color:#2b2a22}
+/* 标本卡 */
+h2{font-weight:900;font-size:26px;line-height:1.25;margin:44px 0 6px}
+.h2sub{margin:0 0 18px;color:var(--soft);font-size:15px}
+.cards{display:grid;gap:18px}
+.card{position:relative;display:grid;grid-template-columns:128px minmax(0,1fr);gap:22px;padding:22px 22px 18px;background:var(--paper);border:1px solid var(--ink);box-shadow:4px 4px 0 var(--rule)}
+.card.new{animation:settle .9s ease-out}
+@keyframes settle{from{box-shadow:4px 4px 0 var(--rule),0 0 0 6px color-mix(in srgb,var(--moss) 25%,transparent)}}
+.card .ill{width:128px;height:154px;display:block}
+.no{font-size:13px;color:var(--soft);letter-spacing:.04em}
+.card h3{font-size:20px;font-weight:600;line-height:1.5;margin:2px 0 10px}
+.card h3 a{text-decoration:none;background:linear-gradient(var(--moss),var(--moss)) 0 100%/0 1px no-repeat;transition:background-size .35s}
+.card h3 a:hover,.card h3 a:focus-visible{background-size:100% 1px;outline:none}
+.label{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 14px;margin:0 0 12px;font-size:14px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:8px 0}
+.label dt{color:var(--soft)}.label dd{margin:0}
+.ok{color:var(--moss);font-weight:600}.sniff{color:var(--amber);font-weight:600}
+.what{margin:0}
+.note{margin:10px 0 0;padding-left:12px;border-left:2px solid var(--moss);color:var(--soft);font-style:italic}
+.votes{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.vb{border:1px solid var(--soft);background:none;color:var(--soft);font-size:14px;padding:0 12px;min-height:38px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+.vb:hover,.vb:focus-visible{border-color:var(--seal);color:var(--seal);outline:none}
+.vb.on{border-color:var(--seal);color:var(--paper);background:var(--seal)}
+.stamp{position:absolute;right:18px;bottom:16px;padding:3px 10px;border:2px solid var(--seal);outline:1px solid var(--seal);outline-offset:2px;color:var(--seal);
+  font-weight:900;font-size:18px;letter-spacing:.12em;rotate:-9deg;opacity:.85;pointer-events:none}
+.stamp.press{animation:press .35s cubic-bezier(.3,1.6,.5,1)}
+@keyframes press{from{scale:1.6;opacity:0}}
+.read{color:var(--moss)}
+.end{margin:18px 0 0;color:var(--soft);text-align:center}
+/* 雨历 */
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.cal .dow{font-size:13px;color:var(--soft);text-align:center;padding-bottom:4px}
+.day{aspect-ratio:1;border:1px solid var(--rule);background:none;padding:4px 6px;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;font-size:12px;color:var(--soft);cursor:default;font-family:inherit}
+.day.wet{border-color:var(--ink);color:var(--ink);cursor:pointer;background:var(--paper2)}
+.day.wet:hover,.day.wet:focus-visible{outline:2px solid var(--moss);outline-offset:-1px}
+.day.today{box-shadow:inset 0 -3px 0 var(--seal)}
+.drops{display:flex;gap:3px;align-self:center;margin-bottom:4px}
+.drops i{width:7px;height:9px;background:var(--ink);border-radius:50% 50% 50% 50%/62% 62% 38% 38%;rotate:180deg}
+.calnote{margin:10px 0 0;color:var(--soft);font-size:14px}
+/* 标本柜 */
+.cab{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:1px solid var(--ink);border-left:1px solid var(--ink)}
+.drawer{border:0;border-right:1px solid var(--ink);border-bottom:1px solid var(--ink);background:none;padding:14px 6px 10px;cursor:pointer;text-align:center}
+.drawer:hover,.drawer:focus-visible{background:var(--paper2);outline:none}
+.drawer .ill{width:64px;height:76px;margin:0 auto;display:block}
+.drawer.none .ill{opacity:.28;filter:grayscale(1)}
+.drawer b{display:block;font-weight:600;font-size:15px}
+.drawer small{display:block;color:var(--soft);font-size:13px}
+.foot{margin:40px 0 0;color:var(--soft);font-size:14px;text-align:center}
+/* 喂一口和弹出页 */
+.fab{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:calc(18px + env(safe-area-inset-bottom));z-index:5;background:var(--ink);color:var(--paper);border:0;
+  padding:0 22px;min-height:50px;font-size:16px;font-weight:600;cursor:pointer;box-shadow:4px 4px 0 var(--moss)}
+.fab:focus-visible{outline:2px solid var(--moss);outline-offset:3px}
+.sheet{position:fixed;inset:0;background:rgb(10 14 10/.42);display:flex;align-items:flex-end;justify-content:center;z-index:10}
 .sheet[hidden]{display:none}
-.panel{width:100%;max-width:560px;max-height:84vh;overflow:auto;padding:16px 18px calc(22px + env(safe-area-inset-bottom));animation:pop .3s steps(4)}
-@keyframes pop{from{transform:translateY(32px)}}
-.panel h3{font-weight:400;font-size:30px;margin:0 0 10px;display:flex;justify-content:space-between;align-items:center;gap:10px}
-.panel .x{min-width:44px;padding:0}
-.fed{margin:4px 0 14px;padding-left:1.2em}.fed li{margin:4px 0}
-.note{background:var(--paper2);padding:8px 12px;margin:0 0 14px;color:var(--soft);box-shadow:inset 4px 4px 0 var(--shade)}
-label{display:block;margin-bottom:6px}
-textarea{width:100%;font:20px/1.5 "Fusion Pixel",sans-serif;color:var(--ink);background:var(--paper2);border:4px solid var(--edge);padding:8px 10px;resize:vertical;border-radius:0}
-textarea:focus-visible{outline:4px solid var(--wood);outline-offset:0}
-.list{list-style:none;padding:0;margin:0}.list li{padding:10px 0;border-top:4px dotted var(--shade)}
-.list small{color:var(--soft);font-size:20px}
-.toast{position:fixed;left:50%;bottom:calc(88px + env(safe-area-inset-bottom));transform:translate(-50%,16px);padding:8px 16px;opacity:0;transition:.25s steps(3);pointer-events:none;z-index:20;max-width:90vw;text-align:center}
-.toast.show{opacity:1;transform:translate(-50%,0)}
+.panel{width:100%;max-width:580px;max-height:84vh;overflow:auto;background:var(--paper);border-top:1px solid var(--ink);
+  padding:20px max(5vw,22px) calc(26px + env(safe-area-inset-bottom));animation:up .3s ease-out}
+@keyframes up{from{translate:0 36px;opacity:0}}
+.panel h3{font-size:24px;font-weight:900;margin:0 0 12px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.x{background:none;border:1px solid var(--rule);min-width:40px;min-height:40px;cursor:pointer;font-size:20px;line-height:1}
+.fed{margin:6px 0 16px;padding-left:1.2em;color:var(--soft)}.fed li{margin:4px 0}
+.memo{font-size:14px;color:var(--soft);border-left:2px solid var(--amber);padding-left:12px;margin:0 0 16px}
+.index{border:1px solid var(--ink);padding:10px 14px 14px;background:var(--paper)}
+.index label{display:block;font-weight:600;color:var(--seal);font-size:14px}
+textarea{width:100%;border:0;background:repeating-linear-gradient(transparent 0 29px,var(--rule) 29px 30px);font:17px/30px "Noto Serif SC","Noto Serif CJK SC","Source Han Serif SC","Songti SC",serif;color:var(--ink);padding:0;resize:vertical;min-height:92px}
+textarea:focus-visible{outline:none}
+.index:focus-within{box-shadow:4px 4px 0 var(--moss)}
+.go{margin-top:14px;background:var(--ink);color:var(--paper);border:0;min-height:44px;padding:0 24px;cursor:pointer;font-weight:600;text-decoration:none;display:inline-flex;align-items:center}
+.list{list-style:none;padding:0;margin:0}.list li{border-top:1px solid var(--rule);padding:12px 0;display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;align-items:center}
+.list .ill{width:44px;height:52px}.list small{color:var(--soft);font-size:13px}
+.toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));translate:-50% 12px;background:var(--ink);color:var(--paper);padding:9px 16px;font-size:14px;opacity:0;transition:.25s;pointer-events:none;z-index:40;max-width:90vw;text-align:center}
+.toast.show{opacity:1;translate:-50% 0}
 .sheet:not([hidden])~.toast{bottom:auto;top:calc(16px + env(safe-area-inset-top))}
 @media(max-width:600px){
-  h1{font-size:40px}.m{grid-template-columns:32px minmax(0,1fr);gap:10px;padding:14px 12px 16px}.m>.spr{width:32px;height:32px}
-  .guide{grid-template-columns:repeat(3,minmax(0,1fr))}.vote{gap:6px}.vote .btn{padding:0 8px}}
-@media(prefers-reduced-motion:reduce){.drops i,.shroom .spr,.float{animation:none}.shroom.up,.m.new,.panel,.bump{transition:none;animation:none}}
+  .card{grid-template-columns:72px minmax(0,1fr);gap:14px;padding:18px 16px 16px}.card .ill{width:72px;height:86px}
+  .stamp{font-size:15px;right:12px;bottom:14px}.cab{grid-template-columns:repeat(3,minmax(0,1fr))}.stats b{font-size:22px}
+  .shroom{width:96px;margin-left:-48px}.shroom .ill{width:96px;height:115px}}
+@media(prefers-reduced-motion:reduce){.rain i,.shroom .ill,.card.new,.stamp.press,.panel{animation:none}.holding .ill{transform:none}}
 </style>
 </head>
 <body>
-<header class="sky" id="sky">
-  <div id="clouds"></div>
-  <div class="drops" id="drops"></div>
+<header class="mast" id="mast">
+  <div class="rain" id="rain"></div>
   <div class="wrap">
-    <div><h1 class="out">蘑菇·雨后</h1><p class="when px tag" id="when">……</p></div>
-    <button class="bag" id="bagBtn" type="button" aria-label="篮子"><span id="bagIcon"></span><b class="out" id="bagN">×0</b></button>
+    <div><h1>蘑菇·雨后</h1><p class="sub">雨后采集笔记</p><p class="when" id="when">&nbsp;</p></div>
+    <div class="stats" id="stats"></div>
   </div>
 </header>
-<div class="field" id="field" aria-label="草地"></div>
 <main class="wrap">
-  <p class="say"><span class="px tag" id="hint" aria-live="polite">……</span></p>
-  <section id="basketSec" hidden>
-    <h2 class="out" id="basketTitle">篮子</h2>
-    <div class="basket" id="basket"></div>
-    <p class="end"><span class="px tag" id="end" hidden></span></p>
+  <div class="ground empty" id="ground" aria-label="湿土"></div>
+  <p class="hint" id="hint" aria-live="polite"></p>
+  <section id="cardSec" hidden>
+    <h2 id="cardTitle">这场雨的标本</h2>
+    <p class="h2sub" id="cardSub"></p>
+    <div class="cards" id="cards"></div>
+    <p class="end" id="end"></p>
   </section>
-  <h2 class="out">图鉴</h2>
-  <div class="px guide" id="guide"></div>
-  <section id="pastSec" hidden><h2 class="out">以前的雨</h2><ul class="px past" id="past"></ul></section>
-  <p class="foot"><span class="px tag" id="foot" hidden></span></p>
+  <h2>降雨记录</h2>
+  <p class="h2sub">最近五周。深色的格子下过雨，点进去看那天采到了什么。</p>
+  <div class="cal" id="cal"></div>
+  <p class="calnote" id="calnote"></p>
+  <h2>标本柜</h2>
+  <p class="h2sub">五种蘑菇，五个抽屉。</p>
+  <div class="cab" id="cab"></div>
+  <p class="foot" id="foot"></p>
 </main>
-<button class="btn fab" id="feedBtn" type="button">喂一口</button>
-<div class="sheet" id="sheet" hidden><div class="px panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="sheetTitle"></div></div>
-<div class="toast px" id="toast" role="status"></div>
+<button class="fab" id="feedBtn" type="button">喂一口</button>
+<div class="sheet" id="sheet" hidden><div class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="sheetTitle"></div></div>
+<div class="toast" id="toast" role="status"></div>
 <script>
 {
-const PAL={"o":"#3b2416","W":"#fffaf0","w":"#f1e6cf","s":"#d2bf9c","b":"#8a5a34","B":"#6b4226","g":"#a39178","G":"#7d6d57","r":"#e0532f","R":"#b23a20","n":"#7c8a3c","N":"#5a6629","x":"#ffffff","y":"#f6cf4f","t":"#c98a4b","T":"#8a542a","K":"#4a8a2e"};
-const SPR={"猴头菇":["................","................","................",".....oooooo.....","...ooWWwwwwoo...","..oWWwwwwwwwwo..",".oWwwwswwswwwwo.",".owwswwwwwwswwo.","owwwwwwsswwwwwwo","owswwwwwwwwwwswo","owwwwswwwwswwwwo",".owswwwsswwwswo.",".osowsowwoswoso.","..o.so.ss.os.o..",".....o....o.....","................"],"鸡枞":["................",".......oo.......","......ogGo......",".....oggGGo.....","....ogggGGGo....","...oggggGGGGo...","..ogggggGGGGGo..",".oooooooooooooo.","......owso......","......owso......","......owso......","......owso......","......owso......",".....owwsso.....","....owwwssso....",".....oooooo....."],"竹荪":["................","......oooo......",".....onnNNo.....","....onnnNNNo....","....onnnNNNo....","....oowwssoo....","...oW.owso.Wo...","..oW.W.ws.W.Wo..","..oW.WowsoW.Wo..","..o.W.owso.W.o..",".oW.W.owso.W.Wo.",".o.W.WowsoW.W.o.",".oWWWWowsoWWWWo.",".oooooooooooooo.","......owso......",".....oooooo....."],"松茸":["..x.............",".xyx............","..x.............","....oooooooo....","..oobbbbBBBBoo..",".obbbbbbBBBBBBo.",".obbbbbbBBBBBBo.",".oBBBBBBBBBBBBo.","..ooowwwsssooo..","....owwwssso....","....owwwssso....","....owwwssso....","...owwwwsssso...","...owwwwsssso...","...owwwwsssso...","....oooooooo...."],"野蘑菇":["................","................","................","....oooooooo....","..oorrrrRRRRoo..",".orrWWrrRRWWRRo.",".orWWrrrRRRWWRo.","orrrrrrWWRRRRRRo","orrrWrrrRRRWRRRo","oRRRRRRRRRRRRRRo",".oooowwwsssoooo.","....owwwssso....","....owwwssso....","....owwwssso....","...owwwwsssso...","....oooooooo...."],"篮子":["................","................","................","................","....oooooooo....","...o........o...","..o..........o..","..o..........o..","oooooooooooooooo","otttTtttTTTTTTTo",".otTtttTTTTTTTo.",".ottttTtTTTTTTo.",".otTttttTTTTTTo.","..ottTttTTTTTo..","..oooooooooooo..","................"],"花":["................","................","................","................","................","................","................","................","................","................",".......W........","......WyW.......",".......W........",".......K........","......KK........","................"],"草":["................","................","................","................","................","................","................","................","................","................","................","................","....K..K..K.....",".....K.K.K......","......KKK.......","................"],"云":["................","................","................","................","................","......WWWW......","....WWWWWWWW....","..WWWWWWWWWWWW..",".WWWWWWWWWWWWWW.","wwwwwwwwwwwwwwww",".wwwwwwwwwwwwww.","................","................","................","................","................"]};
-const SPECIES=[["猴头菇","慢读的长文","值得慢读的长文、论文、深度报道"],["鸡枞","新鲜事","新鲜事、新品、新消息"],["竹荪","好看的东西","好看的东西，比如图、作品、设计"],["松茸","稀有的好东西","稀有的好东西，一周最多一朵"],["野蘑菇","范围之外的","从喂过的范围之外带回来的"]];
+const SPECIES=[["猴头菇","值得慢读的长文、论文、深度报道"],["鸡枞","新鲜事、新品、新消息"],["竹荪","好看的东西，比如图、作品、设计"],["松茸","稀有的好东西，一周最多一朵"],["野蘑菇","从喂过的范围之外带回来的"]];
 const VERDICTS=["好吃","难吃","还想要","别再带"];
 const NUM=["零","一","两","三"];
 const $=id=>document.getElementById(id);
@@ -160,13 +167,29 @@ const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&
 const safe=u=>/^https:\/\//.test(String(u||""))?String(u):"";
 const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
 const ls={get(k,d){try{const v=localStorage.getItem("mogu."+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem("mogu."+k,JSON.stringify(v))}catch(e){}}};
-const sprCache={};
-function spr(name,cls){
-  if(!sprCache[name]){const rows=SPR[name]||SPR["鸡枞"],by={};
-    rows.forEach((r,y)=>[...r].forEach((c,x)=>{if(c!=="."&&PAL[c])(by[c]=by[c]||[]).push(`M${x} ${y}h1v1h-1z`)}));
-    sprCache[name]=Object.entries(by).map(([c,d])=>`<path fill="${PAL[c]}" d="${d.join("")}"/>`).join("")}
-  return `<svg class="spr ${cls||""}" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">${sprCache[name]}</svg>`;
-}
+
+/* 细线图鉴插图：墨线 + 淡彩，viewBox 100×120，地面在 y=112 */
+const S='stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"';
+const ILL={
+  "猴头菇":()=>`<path ${S} fill="#efe9dc" d="M20 74C17 46 33 30 50 30S83 46 80 74C70 79 30 79 20 74Z"/>`
+    +Array.from({length:14},(_,i)=>{const x=23+i*4,l=14+((i*7)%9)*2;return `<path ${S} fill="none" d="M${x} ${76-(i%3)} v${l}"/>`}).join("")
+    +`<path ${S} fill="none" d="M32 48q4-6 10-8M58 40q8 2 12 10"/><path ${S} fill="#e4dccb" d="M44 96h12v16H44z"/>`,
+  "鸡枞":()=>`<path ${S} fill="#a8977f" d="M14 56Q32 30 46 26L50 12L54 26Q68 30 86 56Q50 48 14 56Z"/>`
+    +`<path ${S} fill="none" d="M50 26L34 50M50 26L44 51M50 26L56 51M50 26L66 50"/>`
+    +`<path ${S} fill="#f3eee4" d="M45 52L43 112H57L55 52Z"/><path ${S} fill="none" d="M48 60v44M52 66v38"/>`,
+  "竹荪":()=>`<defs><clipPath id="zsc"><path d="M38 44L16 96H84L62 44Z"/></clipPath></defs>`
+    +`<g clip-path="url(#zsc)" fill="none" stroke="currentColor" stroke-width=".9" opacity=".75">${Array.from({length:12},(_,i)=>`<path d="M${i*9} 40l40 64M${i*9+30} 40l-40 64"/>`).join("")}</g>`
+    +`<path ${S} fill="none" d="M38 44L16 96H84L62 44"/><path ${S} fill="#f6f3ea" d="M44 40L42 112H58L56 40Z"/>`
+    +`<path ${S} fill="#5e5a39" d="M36 46Q36 22 50 16Q64 22 64 46Q50 42 36 46Z"/><path ${S} fill="none" d="M42 30q4 4 8 2t8 3"/>`,
+  "松茸":()=>`<path ${S} fill="#f0e7d8" d="M38 56Q35 92 38 112H62Q65 92 62 56Z"/><path ${S} fill="none" d="M38 66q4 4 8 0t8 0 8 0M45 76v30M55 80v26"/>`
+    +`<path ${S} fill="#8a6a4f" d="M14 60Q16 28 50 26Q84 28 86 60Q50 53 14 60Z"/>`
+    +`<path ${S} fill="none" stroke-width="1" d="M30 40q3-3 6 0M44 34q3-3 6 0M60 38q3-3 6 0M36 50q3-3 6 0M54 48q3-3 6 0M70 50q3-3 6 0"/>`,
+  "野蘑菇":()=>`<path ${S} fill="#f4eee4" d="M42 56L41 98Q34 102 37 112H63Q66 102 59 98L58 56Z"/><path ${S} fill="#f4eee4" d="M40 70Q50 78 60 70L62 76Q50 82 38 76Z"/>`
+    +`<path ${S} fill="#c7502f" d="M12 58Q14 18 50 16Q86 18 88 58Q50 51 12 58Z"/>`
+    +[[30,34,3.2],[46,26,2.8],[62,30,3.4],[74,44,2.6],[38,46,2.4],[56,44,2.8],[24,50,2.2]].map(([x,y,r])=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#f7f1e6" stroke="currentColor" stroke-width=".8"/>`).join("")
+    +`<path ${S} fill="none" stroke-width=".8" d="M24 57l6 4M36 55l3 5M50 54v6M64 55l-3 5M76 57l-6 4"/>`,
+};
+const ill=(name,cls)=>`<svg class="ill ${cls||""}" viewBox="0 0 100 120" aria-hidden="true">${(ILL[name]||ILL["鸡枞"])()}</svg>`;
 
 /* 钥匙：通知链接里的 #k=…，存下来后从地址栏抹掉 */
 const hp=new URLSearchParams(location.hash.slice(1));
@@ -187,7 +210,6 @@ function send(ev){if(!KEY)return;outbox.push(ev);ls.set("outbox",outbox);flush()
 const fmt=iso=>{const d=new Date(iso);return isNaN(d)?"":d.toLocaleString("zh-CN",{month:"long",day:"numeric",hour:"2-digit",minute:"2-digit"})};
 function ago(iso){const h=(Date.now()-new Date(iso))/36e5;if(h<1)return"刚刚";if(h<24)return`${Math.floor(h)} 小时前`;return`${Math.floor(h/24)} 天前`}
 let toastT;function toast(t){const el=$("toast");el.textContent=t;el.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove("show"),2400)}
-function setTag(id,text){const el=$(id);el.textContent=text;el.hidden=!text}
 
 const host=location.hostname,owner=host.endsWith(".github.io")?host.split(".")[0]:"",repo=location.pathname.split("/").filter(Boolean)[0]||"";
 const RAW=owner&&repo?`https://raw.githubusercontent.com/${owner}/${repo}/main/`:"";
@@ -196,7 +218,7 @@ async function getFeed(){try{const r=await fetch((RAW||"/")+"feed.yaml?t="+Date.
   for(const line of (await r.text()).split("\n")){if(/^feed:/.test(line)){on=true;continue}if(on){const m=line.match(/^\s+-\s+(.*)$/);if(m){let v=m[1].trim();if(v.startsWith('"')){try{v=JSON.parse(v)}catch(e){}}out.push(v)}else if(/^\S/.test(line))on=false}}
   return out}catch(e){return[]}}
 
-let rains=[],status={},feedLines=[],last=null;
+let rains=[],status={},feedLines=[],last=null;const serial={};
 const picked=new Set(ls.get("picked",[])),opened=new Set(ls.get("opened",[])),votes=ls.get("votes",{});
 const isPicked=m=>{
   if(picked.has(m.id))return true;
@@ -204,118 +226,164 @@ const isPicked=m=>{
   return !!last.picked_at&&!last.mushrooms.some(x=>picked.has(x.id));  // 在别的设备上采过
 };
 const issue=t=>owner&&repo?`https://github.com/${owner}/${repo}/issues/new?title=${encodeURIComponent(t)}&body=${encodeURIComponent("直接提交就行。")}`:"";
+const no=id=>"No. "+String(serial[id]||0).padStart(3,"0");
 
-function card(m,isNew){
+function card(m,at,isNew){
   const v=votes[m.id]||"",url=safe(m.url),ok=m.edible==="能吃";
-  const reacts=VERDICTS.map(x=>KEY?`<button type="button" class="btn${v===x?" on":""}" data-v="${x}" data-id="${esc(m.id)}" aria-pressed="${v===x}">${x}</button>`
-    :(issue(x+" "+m.id)?`<a class="btn" href="${esc(issue(x+" "+m.id))}" target="_blank" rel="noopener">${x}</a>`:"")).join("");
-  return `<article class="px m${isNew?" new":""}" id="m-${esc(m.id)}">${spr(m.species)}<div>
-    <div class="meta"><span>${esc(m.species)}</span><span class="badge${ok?"":" sniff"}" title="${ok?"可靠来源，能核实":"单一来源或观点，自己判断"}">${ok?"能吃":"先闻闻"}</span><span>${esc(m.source)}</span>${opened.has(m.id)?'<span class="seen">看过了</span>':""}</div>
-    <h3>${url?`<a href="${esc(url)}" target="_blank" rel="noopener" data-open="${esc(m.id)}">${esc(m.title)}</a>`:esc(m.title)}</h3>
-    <p>${esc(m.what)}</p><p class="why">${esc(m.why)}</p>
-    ${reacts?`<div class="vote">${reacts}</div>`:""}</div></article>`;
+  const votesHtml=VERDICTS.map(x=>KEY?`<button type="button" class="vb${v===x?" on":""}" data-v="${x}" data-id="${esc(m.id)}" aria-pressed="${v===x}">${x}</button>`
+    :(issue(x+" "+m.id)?`<a class="vb" href="${esc(issue(x+" "+m.id))}" target="_blank" rel="noopener">${x}</a>`:"")).join("");
+  return `<article class="card${isNew?" new":""}" id="m-${esc(m.id)}">
+    ${ill(m.species)}
+    <div>
+      <div class="no">${no(m.id)} · ${esc(m.species)}${opened.has(m.id)?' · <span class="read">已读</span>':""}</div>
+      <h3>${url?`<a href="${esc(url)}" target="_blank" rel="noopener" data-open="${esc(m.id)}">${esc(m.title)}</a>`:esc(m.title)}</h3>
+      <dl class="label"><dt>采集</dt><dd>${esc(fmt(at))}</dd><dt>出处</dt><dd>${esc(m.source)}</dd>
+        <dt>可食性</dt><dd class="${ok?"ok":"sniff"}">${ok?"能吃 · 可靠来源，能核实":"先闻闻 · 单一来源或观点，自己判断"}</dd></dl>
+      <p class="what">${esc(m.what)}</p>
+      <p class="note">${esc(m.why)}</p>
+      ${votesHtml?`<div class="votes" role="group" aria-label="反馈">${votesHtml}</div>`:""}
+    </div>
+    ${v?`<span class="stamp">${esc(v)}</span>`:""}
+  </article>`;
 }
 
-const DECO=[["草",7,8],["花",19,34],["草",36,4],["花",57,40],["草",72,10],["花",88,30],["草",96,52]];
-const deco=()=>DECO.map(([n,x,y])=>`<span class="deco" style="left:${x}%;bottom:${y}px">${spr(n)}</span>`).join("");
 function render(newId){
   last=rains[rains.length-1]||null;
+  let n=0;rains.forEach(r=>r.mushrooms.forEach(m=>{serial[m.id]=++n}));
   const fresh=last?last.mushrooms.filter(m=>!isPicked(m)):[];
-  const f=$("field");
+  const g=$("ground");
   if(fresh.length){
-    f.className="field";
-    f.innerHTML=deco()+fresh.map((m,i)=>{const x=(i+1)/(fresh.length+1)*100+((i*37)%11-5);
-      return `<button type="button" class="shroom" style="left:${x.toFixed(1)}%" data-pick="${esc(m.id)}" aria-label="采一朵${esc(m.species)}">${spr(m.species).replace("<svg",`<svg style="animation-delay:-${(i*.37).toFixed(2)}s"`)}<span class="px tag">${esc(m.species)}</span></button>`}).join("");
-    setTag("hint",`冒了${NUM[fresh.length]||fresh.length}朵，点一下采！`);
+    g.className="ground";
+    g.innerHTML=fresh.map((m,i)=>{const x=(i+1)/(fresh.length+1)*100+((i*37)%11-5);
+      return `<button type="button" class="shroom" style="left:${x.toFixed(1)}%" data-pick="${esc(m.id)}" aria-label="采下这朵${esc(m.species)}（按住，或按回车）">
+        ${ill(m.species).replace("<svg",`<svg style="animation-delay:${(.5+i*.35).toFixed(2)}s"`)}
+        <svg class="ring" viewBox="0 0 84 28" aria-hidden="true"><ellipse cx="42" cy="14" rx="40" ry="12" pathLength="180"/></svg>
+        <span class="nm">${esc(m.species)}</span></button>`}).join("");
+    $("hint").textContent=`冒了${NUM[fresh.length]||fresh.length}朵。按住一朵，把它采下来。`;
   }else{
-    f.className="field empty";f.innerHTML=deco();
-    setTag("hint",last?"地上没有新蘑菇。雨会在说不准的时候来。":"还没下过雨。雨会在说不准的时候来。");
+    g.className="ground empty";g.innerHTML="";
+    $("hint").textContent=last?"土里没有新的蘑菇。雨会在说不准的时候来。":"还没下过雨。雨会在说不准的时候来。";
   }
-  const inBasket=last?last.mushrooms.filter(m=>isPicked(m)):[];
-  $("bagN").textContent="×"+inBasket.length;
-  $("basketSec").hidden=!inBasket.length;
-  $("basketTitle").textContent=fresh.length||last&&Date.now()-new Date(last.at)<864e5?"这场雨的篮子":"上一场雨的篮子";
-  $("basket").innerHTML=inBasket.map(m=>card(m,m.id===newId)).join("");
-  setTag("end",last&&!fresh.length?"都采完了。下一场雨说不准什么时候来。":"");
-  if(newId&&!reduce){const el=$("m-"+newId);el&&el.scrollIntoView({block:"nearest",behavior:"smooth"})}
+  const got=last?last.mushrooms.filter(isPicked):[];
+  $("cardSec").hidden=!got.length;
+  $("cardTitle").textContent=fresh.length||last&&Date.now()-new Date(last.at)<864e5?"这场雨的标本":"上一场雨的标本";
+  $("cardSub").textContent=last?`${fmt(last.at)} · 采了 ${got.length} / ${last.mushrooms.length} 份`:"";
+  $("cards").innerHTML=got.map(m=>card(m,last.at,m.id===newId)).join("");
+  $("end").textContent=last&&!fresh.length?"都采完了。下一场雨说不准什么时候来。":"";
 
-  const count={};rains.flatMap(r=>r.mushrooms).filter(isPicked).forEach(m=>count[m.species]=(count[m.species]||0)+1);
-  $("guide").innerHTML=SPECIES.map(([n,d])=>`<button type="button" class="slot${count[n]?"":" none"}" data-species="${n}">${spr(n)}<b>${n}</b><small>${count[n]?"×"+count[n]:"未遇见"}</small></button>`).join("");
-
-  const past=rains.slice(0,-1).reverse();
-  $("pastSec").hidden=!past.length;
-  $("past").innerHTML=past.map(r=>`<li><time>${esc(fmt(r.at))}</time>${r.mushrooms.map(m=>{const u=safe(m.url);return u?`<a href="${esc(u)}" target="_blank" rel="noopener" data-open="${esc(m.id)}">${spr(m.species)}<span>${esc(m.title)}</span></a>`:""}).join("")}</li>`).join("");
-
-  const left=status&&status.source==="pool"&&Number.isFinite(status.pool_left)?`池子里还剩 ${status.pool_left} 朵。`:"";
-  setTag("foot",left+(owner&&!KEY?" 从推送里点进来，才能在这里直接反馈和喂。":""));
+  const all=rains.flatMap(r=>r.mushrooms).filter(isPicked),count={};all.forEach(m=>count[m.species]=(count[m.species]||0)+1);
+  $("stats").innerHTML=`<b>${rains.length}</b>场雨<br><b>${all.length}</b>份标本`;
+  $("cab").innerHTML=SPECIES.map(([s])=>`<button type="button" class="drawer${count[s]?"":" none"}" data-species="${s}">${ill(s)}<b>${s}</b><small>${count[s]?count[s]+" 份":"未采集"}</small></button>`).join("");
+  calendar();
+  const left=status&&status.source==="pool"&&Number.isFinite(status.pool_left)?`池子里还有 ${status.pool_left} 份没长出来。`:"";
+  $("foot").textContent=left+(owner&&!KEY?" 从推送里点进来，才能在这里直接反馈和喂。":"");
 }
+
+function dayKey(d){return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`}
+function calendar(){
+  const byDay={};rains.forEach(r=>{const k=dayKey(new Date(r.at));(byDay[k]=byDay[k]||[]).push(r)});
+  const today=new Date();today.setHours(0,0,0,0);
+  const start=new Date(today);start.setDate(start.getDate()-((today.getDay()+6)%7)-28);
+  let html="一二三四五六日".split("").map(d=>`<div class="dow">${d}</div>`).join(""),rainy=0;
+  for(let i=0;i<35;i++){const d=new Date(start);d.setDate(start.getDate()+i);const k=dayKey(d),rs=byDay[k]||[],future=d>today;
+    const cnt=rs.reduce((a,r)=>a+r.mushrooms.length,0);if(rs.length)rainy++;
+    html+=rs.length?`<button type="button" class="day wet${+d===+today?" today":""}" data-day="${k}" aria-label="${d.getMonth()+1}月${d.getDate()}日，${rs.length}场雨，${cnt}朵"><span>${d.getDate()}</span><span class="drops">${"<i></i>".repeat(Math.min(cnt,3))}</span></button>`
+      :`<div class="day${+d===+today?" today":""}" style="${future?"opacity:.35":""}"><span>${d.getDate()}</span></div>`}
+  $("cal").innerHTML=html;
+  calMap=byDay;
+  $("calnote").textContent=rainy?`这五周下过 ${rainy} 天雨。`:"这五周还没下过雨。";
+}
+let calMap={};
 
 function sky(){
   const fresh=last?last.mushrooms.filter(m=>!isPicked(m)):[];
-  const when=$("when"),s=$("sky");
+  const when=$("when"),m=$("mast");
   if(fresh.length){
     if(reduce){when.textContent=`雨停了 · ${fmt(last.at)}`;return}
-    s.classList.add("raining");when.textContent="下雨了……";
-    setTimeout(()=>{s.classList.remove("raining");when.textContent=`雨停了 · ${fmt(last.at)}`},2400);
-  }else when.textContent=last?`上一场雨：${ago(last.at)}`:"还没下过雨";
+    m.classList.add("raining");when.textContent="正在下雨……";
+    setTimeout(()=>{m.classList.remove("raining");when.textContent=`雨停了 · ${fmt(last.at)}`},2200);
+  }else when.textContent=last?`上一场雨在 ${ago(last.at)}`:"还没下过雨";
 }
 
+/* 按住采：大约 0.7 秒，松手就取消；键盘回车或空格直接采 */
+let holdT=null,holdBtn=null;
+function startHold(btn){if(btn.disabled)return;holdBtn=btn;btn.classList.add("holding");holdT=setTimeout(()=>{btn.classList.remove("holding");holdBtn=null;pick(btn)},reduce?0:700)}
+function endHold(){clearTimeout(holdT);if(holdBtn){holdBtn.classList.remove("holding");holdBtn=null}}
 function pick(btn){
   const m=last.mushrooms.find(x=>x.id===btn.dataset.pick);if(!m||btn.disabled)return;
-  btn.disabled=true;btn.classList.add("up");
-  if(!reduce){const fl=document.createElement("span");fl.className="float out";fl.textContent="+1 "+m.species;fl.style.left=btn.style.left;fl.style.bottom="110px";$("field").appendChild(fl)}
+  btn.disabled=true;
   if(!last.mushrooms.some(x=>picked.has(x.id)))send({t:"p",rain:last.id});
   picked.add(m.id);ls.set("picked",[...picked]);
-  setTimeout(()=>{render(m.id);const b=$("bagBtn");b.classList.remove("bump");void b.offsetWidth;b.classList.add("bump")},reduce?0:420);
+  const src=btn.querySelector(".ill"),r1=src.getBoundingClientRect(),ghost=src.cloneNode(true);
+  ghost.classList.add("ghost");Object.assign(ghost.style,{animation:"none",left:r1.left+"px",top:r1.top+"px",width:r1.width+"px",height:r1.height+"px",color:getComputedStyle(src).color,transformOrigin:"0 0"});
+  render(m.id);
+  const tgt=document.querySelector(`#m-${CSS.escape(m.id)} .ill`);
+  if(reduce||!tgt)return;
+  document.body.appendChild(ghost);tgt.style.visibility="hidden";
+  const r2=tgt.getBoundingClientRect(),dx=r2.left-r1.left,dy=r2.top-r1.top,s=r2.width/r1.width;
+  ghost.animate([{transform:"none"},{transform:`translate(${dx*.5}px,${dy*.5-60}px) scale(${(1+s)/2}) rotate(-6deg)`,offset:.5},{transform:`translate(${dx}px,${dy}px) scale(${s})`}],
+    {duration:850,easing:"cubic-bezier(.3,.7,.2,1)"}).onfinish=()=>{
+      tgt.style.visibility="";ghost.remove();
+      const c=$("m-"+m.id);c&&c.scrollIntoView({block:"nearest",behavior:"smooth"});
+    };
 }
 
-function openSheet(html,focusSel){
-  $("panel").innerHTML=html;$("sheet").hidden=false;
-  const f=$("panel").querySelector(focusSel||"button,textarea,a");f&&f.focus();
-}
+function openSheet(html,focusSel){$("panel").innerHTML=html;$("sheet").hidden=false;const f=$("panel").querySelector(focusSel||"button,textarea,a");f&&f.focus()}
 function closeSheet(){$("sheet").hidden=true;$("feedBtn").focus()}
-const head=t=>`<h3 id="sheetTitle"><span>${t}</span><button type="button" class="btn x" data-close aria-label="关上">×</button></h3>`;
+const head=t=>`<h3 id="sheetTitle"><span>${t}</span><button type="button" class="x" data-close aria-label="关上">×</button></h3>`;
+const rows=items=>`<ul class="list">${items.map(({m,at})=>{const u=safe(m.url);return `<li>${ill(m.species)}<div><small>${no(m.id)} · ${esc(fmt(at))} · ${m.edible==="能吃"?"能吃":"先闻闻"}</small><br>${u?`<a href="${esc(u)}" target="_blank" rel="noopener" data-open="${esc(m.id)}">${esc(m.title)}</a>`:esc(m.title)}</div></li>`}).join("")}</ul>`;
 
 function feedSheet(){
-  const pool=status&&status.source==="pool"?'<p class="note">原型阶段，蘑菇来自事先采好的池子。喂的东西会先记下来，等切到联网现采才真正起作用。</p>':"";
-  const fed=feedLines.length?`<p style="margin:0">它吃过这些：</p><ul class="fed">${feedLines.map(l=>`<li>${esc(l)}</li>`).join("")}</ul>`:"";
-  openSheet(head("喂一口")+fed+pool+`<label for="feedText">想让蘑菇从哪里长出来？</label>
-    <textarea id="feedText" rows="3" maxlength="120" placeholder="比如：想看点关于城市夜晚的东西"></textarea>
-    <p style="margin:12px 0 0"><button type="button" class="btn" id="feedGo">${KEY?"喂！":"去 GitHub 喂"}</button></p>`,"textarea");
+  const pool=status&&status.source==="pool"?'<p class="memo">原型阶段，蘑菇来自事先采好的池子。喂的东西会先记下来，等切到联网现采才真正起作用。</p>':"";
+  const fed=feedLines.length?`<p style="margin:0;color:var(--soft)">它吃过这些：</p><ul class="fed">${feedLines.map(l=>`<li>${esc(l)}</li>`).join("")}</ul>`:"";
+  openSheet(head("喂一口")+fed+pool+`<div class="index"><label for="feedText">想让蘑菇从哪里长出来？</label>
+    <textarea id="feedText" rows="3" maxlength="120" placeholder="比如：想看点关于城市夜晚的东西"></textarea></div>
+    <button type="button" class="go" id="feedGo">${KEY?"喂进去":"去 GitHub 喂"}</button>`,"textarea");
 }
 function doFeed(){
   const t=$("feedText").value.trim();if(!t){$("feedText").focus();return}
-  if(KEY){send({t:"f",text:t});feedLines.push(t+"（刚喂，下一次看天时收进去）");closeSheet();toast("喂进去了！")}
+  if(KEY){send({t:"f",text:t});feedLines.push(t+"（刚喂，下一次看天时收进去）");closeSheet();toast("喂进去了。")}
   else{const u=issue("喂 "+t);if(u)window.open(u,"_blank","noopener");closeSheet()}
 }
 function speciesSheet(name){
-  const desc=(SPECIES.find(s=>s[0]===name)||[,,""])[2];
+  const desc=(SPECIES.find(s=>s[0]===name)||[,""])[1];
   const got=rains.flatMap(r=>r.mushrooms.map(m=>({m,at:r.at}))).filter(x=>x.m.species===name&&isPicked(x.m)).reverse();
-  const list=got.length?`<ul class="list">${got.map(({m,at})=>{const u=safe(m.url);return `<li><small>${esc(fmt(at))} · ${m.edible==="能吃"?"能吃":"先闻闻"}</small><br>${u?`<a href="${esc(u)}" target="_blank" rel="noopener" data-open="${esc(m.id)}">${esc(m.title)}</a>`:esc(m.title)}</li>`}).join("")}</ul>`
-    :`<p class="note">还没遇到。它会在某一场雨后冒出来。</p>`;
-  openSheet(head(name)+`<div style="display:flex;gap:12px;align-items:center;margin-bottom:12px">${spr(name).replace('class="spr ','class="spr '+(got.length?"":"none ")).replace("<svg",'<svg style="width:64px;height:64px;flex:none'+(got.length?"":";filter:brightness(0);opacity:.3")+'"')}<p style="margin:0;color:var(--soft)">${esc(desc)}</p></div>`+list);
+  openSheet(head(name)+`<p style="margin:0 0 12px;color:var(--soft)">${esc(desc)}</p>`+(got.length?rows(got):`<p class="memo">还没采到。它会在某一场雨后长出来。</p>`));
+}
+function daySheet(k){
+  const rs=calMap[k]||[];
+  const items=rs.flatMap(r=>r.mushrooms.map(m=>({m,at:r.at}))).filter(x=>isPicked(x.m));
+  const [,mo,d]=k.split("-");
+  openSheet(head(`${mo}月${d}日`)+`<p style="margin:0 0 12px;color:var(--soft)">${rs.length} 场雨，${rs.reduce((a,r)=>a+r.mushrooms.length,0)} 朵。</p>`+(items.length?rows(items):`<p class="memo">这天的蘑菇还在土里，没采。</p>`));
 }
 
+document.addEventListener("pointerdown",e=>{const b=e.target.closest(".shroom");if(b&&e.button===0){e.preventDefault();startHold(b)}});
+document.addEventListener("pointerup",endHold);
+document.addEventListener("pointercancel",endHold);
+document.addEventListener("pointerout",e=>{if(holdBtn&&!holdBtn.contains(e.relatedTarget))endHold()});
+document.addEventListener("contextmenu",e=>{if(e.target.closest(".shroom"))e.preventDefault()});
+document.addEventListener("keydown",e=>{
+  const b=e.target.closest&&e.target.closest(".shroom");
+  if(b&&(e.key==="Enter"||e.key===" ")){e.preventDefault();pick(b);return}
+  if(e.key==="Escape"&&!$("sheet").hidden)closeSheet();
+});
 document.addEventListener("click",e=>{
-  const t=e.target.closest("[data-pick],[data-v],[data-open],[data-species],[data-close],#feedBtn,#feedGo,#bagBtn");
+  const t=e.target.closest("[data-v],[data-open],[data-species],[data-day],[data-close],#feedBtn,#feedGo");
   if(!t){if(e.target===$("sheet"))closeSheet();return}
-  if(t.dataset.pick)pick(t);
-  else if(t.dataset.v){const id=t.dataset.id,v=votes[id]===t.dataset.v?"":t.dataset.v;votes[id]=v;ls.set("votes",votes);send({t:"v",id,v});
-    t.parentElement.querySelectorAll(".btn").forEach(b=>{b.classList.toggle("on",b.dataset.v===v);b.setAttribute("aria-pressed",b.dataset.v===v)});
-    toast(v?`记下了：${v}！之后的雨会参考。`:"撤回了。")}
+  if(t.dataset.v){const id=t.dataset.id,v=votes[id]===t.dataset.v?"":t.dataset.v;votes[id]=v;ls.set("votes",votes);send({t:"v",id,v});
+    const c=$("m-"+id);c.querySelectorAll(".vb").forEach(b=>{b.classList.toggle("on",b.dataset.v===v);b.setAttribute("aria-pressed",b.dataset.v===v)});
+    c.querySelector(".stamp")?.remove();if(v)c.insertAdjacentHTML("beforeend",`<span class="stamp press">${esc(v)}</span>`);
+    toast(v?`盖上了「${v}」。之后的雨会参考。`:"撤回了。")}
   else if(t.dataset.open){const id=t.dataset.open;if(!opened.has(id)){opened.add(id);ls.set("opened",[...opened]);send({t:"o",id});
-    const meta=document.querySelector(`#m-${CSS.escape(id)} .meta`);if(meta&&!meta.querySelector(".seen"))meta.insertAdjacentHTML("beforeend",'<span class="seen">看过了</span>')}}
+    const nb=document.querySelector(`#m-${CSS.escape(id)} .no`);if(nb&&!nb.querySelector(".read"))nb.insertAdjacentHTML("beforeend",' · <span class="read">已读</span>')}}
   else if(t.dataset.species)speciesSheet(t.dataset.species);
+  else if(t.dataset.day)daySheet(t.dataset.day);
   else if("close" in t.dataset)closeSheet();
   else if(t.id==="feedBtn")feedSheet();
   else if(t.id==="feedGo")doFeed();
-  else if(t.id==="bagBtn"){const s=$("basketSec");if(!s.hidden)s.scrollIntoView({behavior:reduce?"auto":"smooth"});else toast("篮子还空着。")}
 });
-document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("sheet").hidden)closeSheet()});
 
-$("bagIcon").innerHTML=spr("篮子");
-$("clouds").innerHTML=[[6,8],[58,-6],[84,26]].map(([x,y])=>`<div class="cloud" style="left:${x}%;top:${y}px">${spr("云")}</div>`).join("");
-$("drops").innerHTML=Array.from({length:30},()=>`<i style="left:${(Math.random()*110).toFixed(1)}%;animation-delay:-${(Math.random()*.9).toFixed(2)}s"></i>`).join("");
+$("rain").innerHTML=Array.from({length:40},()=>`<i style="left:${(Math.random()*115).toFixed(1)}%;animation-delay:-${(Math.random()*.7).toFixed(2)}s;animation-duration:${(.55+Math.random()*.3).toFixed(2)}s"></i>`).join("");
 (async()=>{
   const [r,s,fb,feed]=await Promise.all([getJSON("rains.json",[]),getJSON("status.json",{}),getJSON("feedback.json",[]),getFeed()]);
   rains=Array.isArray(r)?r.filter(x=>x&&Array.isArray(x.mushrooms)):[];status=s&&typeof s==="object"?s:{};feedLines=feed;
