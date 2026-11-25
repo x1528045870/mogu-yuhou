@@ -1,0 +1,15 @@
+# 蘑菇·雨后 的天气设置。改完提交即可，下一次检查天气时生效。
+
+timezone: Australia/Sydney   # 你在哪个时区，回国后改成 Asia/Shanghai
+awake: [9, 23]               # 只在这段时间里下雨（24 小时制，含 9 点、不含 23 点）
+rains_per_week: 6            # 平均一周下几场雨
+min_gap_hours: 4             # 两场雨之间至少隔几小时
+max_per_day: 2               # 一天最多几场
+drought_hours: 60            # 超过这么久没下雨，下雨的概率提高
+lost_every: 3                # 大约每几场雨带一朵野蘑菇（喂过的范围之外）
+
+model: claude-sonnet-5-5     # 想更省钱可以换成 claude-haiku-5-5
+max_searches: 6              # 每场雨最多搜几次
+
+# 网页地址（GitHub Pages 开起来之后填上，推送里的「打开篮子」会跳到这里）
+page_url: ""

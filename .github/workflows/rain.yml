@@ -1,0 +1,65 @@
+name: 下雨
+
+on:
+  schedule:
+    - cron: "17 * * * *"   # 每小时第 17 分钟看一次天（UTC，避开整点高峰）
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 要做什么
+        type: choice
+        options:
+          - 检查天气
+          - 求雨（现在就下一场）
+          - 测试推送（不花钱）
+        default: 检查天气
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: rain
+  cancel-in-progress: false
+
+jobs:
+  rain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install -r requirements.txt
+
+      - name: 看天
+        env:
+          FORCE: ${{ inputs.mode == '求雨（现在就下一场）' }}
+          TEST_NOTIFY: ${{ inputs.mode == '测试推送（不花钱）' }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          NTFY_SERVER: ${{ secrets.NTFY_SERVER }}
+          NTFY_TOKEN: ${{ secrets.NTFY_TOKEN }}
+          SERVERCHAN_KEY: ${{ secrets.SERVERCHAN_KEY }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python -m rain.main
+
+      - name: 收进仓库
+        run: |
+          git config user.name "雨"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/data feed.yaml
+          if git diff --cached --quiet; then
+            echo "没有变化"
+          else
+            git commit -m "🍄 雨后 $(date -u +%Y-%m-%dT%H:%MZ)"
+            git push
+          fi

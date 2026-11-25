@@ -1,0 +1,87 @@
+# 蘑菇·雨后
+
+雨后，蘑菇在说不准的时间冒出来。每场雨只带回 1 到 3 朵：从你喂过的东西里长出来的，偶尔还有一朵迷路的野蘑菇。
+
+这是 v0 原型：它不依赖任何一台电脑，全靠 GitHub Actions 自己跑。
+
+## 它怎么工作
+
+1. GitHub Actions **每小时看一次天**，按概率决定下不下雨。只在醒着的时段下；两场之间至少隔 4 小时；一天最多两场；太久没下，概率会提高。
+2. 下雨了，就请 Claude **联网搜索**，按 `feed.yaml` 里喂过的东西和你之前的反馈，带回 1–3 朵。
+3. **过筛子**：链接必须原样出现在这次的搜索结果里，凭记忆编的链接一律扔掉；带过的也扔掉。
+4. **送到你手上**：ntfy、微信（Server酱）、邮件。哪个渠道配了密钥就发哪个。
+5. 这场雨记进 `docs/data/rains.json`，网页读它来显示篮子和图鉴。
+
+品种就是内容的类型：猴头菇＝慢读的长文，鸡枞＝新鲜事，竹荪＝好看的东西，松茸＝稀有的好东西（一周最多一朵），野蘑菇＝喂过的范围之外。
+能不能吃：🍄能吃＝可靠来源、能多方核实；🟡先闻闻＝单一来源或观点性内容，自己判断。
+
+## 上手（一次性，大约 15 分钟）
+
+### 1. 填密钥
+
+仓库 → **Settings → Secrets and variables → Actions → New repository secret**，按下表一个个加：
+
+| 名字 | 填什么 | 什么时候需要 |
+|---|---|---|
+| `ANTHROPIC_API_KEY` | 在 console.anthropic.com 生成的 key | 必填 |
+| `NTFY_TOPIC` | 自己编一个别人猜不到的名字，比如 `mogu-` 加一串随机字母；手机 ntfy App 里订阅同一个名字 | 用 ntfy 时 |
+| `SERVERCHAN_KEY` | sct.ftqq.com 微信扫码登录后拿到的 SendKey | 用微信时 |
+| `SMTP_HOST` | QQ 邮箱填 `smtp.qq.com`，Gmail 填 `smtp.gmail.com` | 用邮件时 |
+| `SMTP_PORT` | `465` | 用邮件时 |
+| `SMTP_USER` | 发信的邮箱地址 | 用邮件时 |
+| `SMTP_PASS` | QQ 邮箱的「授权码」或 Gmail 的「应用专用密码」，不是登录密码 | 用邮件时 |
+| `MAIL_TO` | 收信地址，可以就是自己 | 用邮件时 |
+
+ntfy 的公共服务器上，知道主题名的人都能看到消息，所以主题名一定要编得长一点、随机一点。
+
+### 2. 打开网页
+
+仓库 → **Settings → Pages → Build and deployment**：Source 选 **Deploy from a branch**，分支选 `main`，文件夹选 `/docs`，保存。
+过一两分钟会给出网址，一般是 `https://<你的用户名>.github.io/mogu-yuhou/`。把它填进 `config.yaml` 的 `page_url`，推送里的「打开篮子」就会跳到这个网页。
+
+（免费账号只有公开仓库能开 Pages。私有仓库要 GitHub Pro，学生包里就有。）
+
+### 3. 试一下
+
+仓库 → **Actions → 下雨 → Run workflow**，选：
+
+- **测试推送（不花钱）**：发一朵测试蘑菇，检查三个渠道通不通。
+- **求雨（现在就下一场）**：真的下一场，大约花一两毛钱。看看蘑菇长什么样。
+
+如果收进仓库那一步报 `403`：Settings → Actions → General → Workflow permissions 选 **Read and write permissions**。
+
+## 日常
+
+- **等雨。**就这样。
+- **反馈**：每朵蘑菇下面有「好吃 / 难吃 / 还想要 / 别再带」。点了会打开 GitHub 的新 Issue 页面，直接点提交。下一次看天时会收进去，之后的雨会参考。
+- **喂**：网页底部的「喂一口」，或者新开一个 Issue，标题写「喂 想看……」，或者直接改 `feed.yaml`。
+- **调天气**：改 `config.yaml`，可以调时区、醒着的时段、一周几场、换模型。
+
+求雨只是测试用的。如果发现自己老想去点它，这件事本身就值得记下来：等不及雨，正是「钓鱼模式」要冒头的时候。
+
+## 花多少钱
+
+- Claude API：每次搜索 $0.01，再加 token 费。用 Sonnet 5.5，一场雨大约 $0.1–0.2；换成 Haiku 5.5 更省。每场雨的估算都记在 `rains.json` 的 `cost_usd` 里。
+- GitHub Actions：公开仓库免费。私有仓库每小时跑一次，大约用掉免费额度的三分之一。
+
+## 已知的限制
+
+- GitHub 的定时任务在高峰期会延迟，偶尔跳过某个小时。对「说不准什么时候下雨」来说没关系。
+- 公开仓库 60 天没有提交，定时任务会被暂停。下雨会自动提交，一般碰不到。
+- 中文网站，尤其公众号文章，搜索覆盖有限。
+- 反馈要多点一次「提交」。做 App 的时候再改。
+
+## 文件
+
+```
+config.yaml            天气设置
+feed.yaml              喂过的、不要的
+rain/weather.py        要不要下雨
+rain/forage.py         联网采蘑菇、过筛子
+rain/notify.py         ntfy / 微信 / 邮件
+rain/feedback.py       用 Issue 喂养和反馈
+rain/main.py           每小时跑的入口
+docs/index.html        篮子和图鉴网页
+docs/data/             下过的雨、反馈
+tests/                 测试：python -m pytest
+```
