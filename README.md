@@ -99,7 +99,8 @@ rain/notify.py         ntfy / 微信 / 邮件
 rain/feedback.py       用 Issue 喂养和反馈（没有钥匙时的退路）
 rain/relay.py          回信箱：把网页上的反馈、喂、采、点开拉回来
 rain/main.py           每小时跑的入口
-docs/index.html        篮子和图鉴网页
+docs/index.html        篮子和图鉴网页（像素风；蘑菇精灵图都是原创手绘的 16×16）
+docs/fonts/            像素中文字体 Fusion Pixel 10px（TakWolf，SIL OFL 1.1，许可证见同目录）
 docs/data/             下过的雨、反馈
 tests/                 测试：python -m pytest
 ```
