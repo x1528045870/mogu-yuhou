@@ -2,7 +2,7 @@ name: 下雨
 
 on:
   schedule:
-    - cron: "17 * * * *"   # 每小时第 17 分钟看一次天（UTC，避开整点高峰）
+    - cron: "13 * * * *"   # 每小时第 13 分钟看一次天（避开整点高峰）
   workflow_dispatch:
     inputs:
       mode:
