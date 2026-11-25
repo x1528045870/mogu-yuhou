@@ -17,7 +17,7 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 
 from . import feedback as fb
-from . import notify, pool, store, weather
+from . import notify, pool, relay, store, weather
 from .forage import forage
 
 
@@ -78,6 +78,22 @@ def main(argv=None):
                 store.save_feedback(feedback)
         except Exception as exc:
             print(f"处理 Issue 时出错（不影响下雨）：{exc}")
+
+    if relay.topic(env) and not preview:
+        try:
+            state = store.load_relay()
+            messages = relay.fetch(env, state.get("since"))
+            rains_changed, fb_changed, _, log = relay.apply(messages, rains, feedback, state, now.tzinfo)
+            for line in log:
+                print(line)
+            if rains_changed:
+                store.save_rains(rains)
+            if fb_changed:
+                store.save_feedback(feedback)
+            if messages:
+                store.save_relay(state)
+        except Exception as exc:
+            print(f"读回信箱时出错（不影响下雨）：{exc}")
 
     if test_notify:
         print(notify.send_all(sample_rain(now, repo), cfg, env))

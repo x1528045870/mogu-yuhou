@@ -8,7 +8,7 @@ import pytest
 from rain import feedback as fb
 from rain import forage as fg
 from rain import main as mainmod
-from rain import notify, pool, store, weather
+from rain import notify, pool, relay, store, weather
 
 TZ = ZoneInfo("Australia/Sydney")
 CFG = {"timezone": "Australia/Sydney", "awake": [9, 23], "rains_per_week": 6, "min_gap_hours": 4,
@@ -197,13 +197,14 @@ def test_send_all_channels():
     cfg = dict(CFG, page_url="https://me.github.io/mogu-yuhou/")
     res = notify.send_all(RAIN, cfg, env, post=post, smtp_cls=SMTP)
     assert res == {"ntfy": "ntfy 200", "微信": "Server酱 200", "邮件": "邮件 已发"}
+    keyed = "https://me.github.io/mogu-yuhou/#k=secret-topic-fb"
     ntfy = sent[0][1]
     assert ntfy["topic"] == "secret-topic" and ntfy["message"] == notify.preview(RAIN)
-    assert ntfy["click"] == cfg["page_url"] and len(ntfy["actions"]) <= 3
+    assert ntfy["click"] == keyed and ntfy["actions"] == [{"action": "view", "label": "去采蘑菇", "url": keyed, "clear": True}]
     sc = sent[1]
     assert sc[0] == "https://sctapi.ftqq.com/SCT123.send" and len(sc[2]["title"]) <= 32
-    assert "[好吃](https://github.com/me/mogu-yuhou/issues/new?title=" in sc[2]["desp"]
-    assert sent[3][0] == "mail" and "&lt;" not in sent[3][1] and "长文 A" in sent[3][2]
+    assert f"[去采蘑菇]({keyed})" in sc[2]["desp"] and "长文 A" not in sc[2]["desp"]   # 不剧透
+    assert sent[3][0] == "mail" and "去采蘑菇" in sent[3][2] and "长文 A" not in sent[3][2]
 
 
 def test_missing_channels_are_skipped():
@@ -227,6 +228,7 @@ def tmp_store(tmp_path, monkeypatch):
     monkeypatch.setattr(store, "RAINS", tmp_path / "rains.json")
     monkeypatch.setattr(store, "FEEDBACK", tmp_path / "feedback.json")
     monkeypatch.setattr(store, "STATUS", tmp_path / "status.json")
+    monkeypatch.setattr(store, "RELAY", tmp_path / "relay.json")
     return tmp_path
 
 
@@ -369,3 +371,78 @@ def test_empty_pool_means_no_rain(tmp_store, tmp_path, monkeypatch, capsys):
     monkeypatch.delenv("GITHUB_TOKEN", raising=False)
     mainmod.main(["--force"])
     assert "池子空了" in capsys.readouterr().out and store.load_rains() == []
+
+
+def test_serverchan_without_page_sends_full_basket():
+    sent = []
+    notify.send_serverchan(RAIN, CFG, {"SERVERCHAN_KEY": "k"}, post=lambda u, **k: sent.append(k["data"]) or Resp({}, 200))
+    assert "长文 A" in sent[0]["desp"] and "[好吃](" in sent[0]["desp"]
+
+
+# ---------- 回信箱 ----------
+
+def test_relay_topic_and_link():
+    cfg = dict(CFG, page_url="https://me.github.io/mogu-yuhou/")
+    assert relay.topic({}) == "" and relay.page_link(cfg, {}) == cfg["page_url"]
+    assert relay.topic({"NTFY_TOPIC": "abc"}) == "abc-fb"
+    assert relay.topic({"NTFY_TOPIC": "abc", "FEEDBACK_TOPIC": "xyz"}) == "xyz"
+    assert relay.page_link(cfg, {"FEEDBACK_TOPIC": "xyz", "NTFY_SERVER": "https://n.example.com/"}) == \
+        "https://me.github.io/mogu-yuhou/#k=xyz&s=https://n.example.com"
+
+
+def msg(i, body, t=1764000000):
+    return {"id": f"m{i}", "event": "message", "time": t, "message": body if isinstance(body, str) else json.dumps(body, ensure_ascii=False)}
+
+
+def test_relay_fetch_parses_ndjson():
+    lines = "\n".join([json.dumps({"id": "a", "event": "open"}), json.dumps(msg(1, {"t": "o", "id": "x"})), "not json"])
+
+    class R:
+        text = lines
+        def raise_for_status(self):
+            pass
+
+    calls = []
+    got = relay.fetch({"FEEDBACK_TOPIC": "fb"}, "m0", get=lambda url, params, timeout: calls.append((url, params)) or R())
+    assert calls == [("https://ntfy.sh/fb/json", {"poll": "1", "since": "m0"})]
+    assert [m["id"] for m in got] == ["m1"]
+
+
+def test_relay_apply(tmp_store):
+    rains = json.loads(json.dumps([RAIN]))
+    feedback = [{"id": "20261126-1431-2", "verdict": "难吃"}]
+    state = {}
+    messages = [
+        msg(1, {"t": "p", "rain": "20261126-1431"}),
+        msg(2, {"t": "p", "rain": "20261126-1431"}, t=1764009999),     # 第二次不覆盖
+        msg(3, {"t": "v", "id": "20261126-1431-1", "v": "好吃"}),
+        msg(4, {"t": "v", "id": "20261126-1431-1", "v": "还想要"}),     # 改主意：只留最后一个
+        msg(5, {"t": "v", "id": "20261126-1431-2", "v": ""}),          # 撤回
+        msg(6, {"t": "o", "id": "20261126-1431-1"}),
+        msg(7, {"t": "f", "text": "  想看  城市夜晚  "}),
+        msg(8, {"t": "v", "id": "nope", "v": "好吃"}),                  # 不认识的蘑菇
+        msg(9, {"t": "v", "id": "20261126-1431-1", "v": "<script>"}),  # 非法反馈
+        msg(10, "not json"),
+        msg(3, {"t": "v", "id": "20261126-1431-1", "v": "难吃"}),       # 重复消息只处理一次
+    ]
+    rc, fc, feedc, log = relay.apply(messages, rains, feedback, state, TZ)
+    assert rc and fc and feedc
+    assert rains[0]["picked_at"].startswith("2025-") and rains[0]["mushrooms"][0]["opened_at"]
+    assert [(f["id"], f["verdict"]) for f in feedback] == [("20261126-1431-1", "还想要")]
+    assert "想看 城市夜晚" in store.load_feed()["feed"]
+    assert state["since"] == "m10" and "m3" in state["seen"]
+    rc, fc, feedc, _ = relay.apply(messages, rains, feedback, state, TZ)   # 再来一遍：全都见过
+    assert not (rc or fc or feedc)
+
+
+def test_main_reads_relay(tmp_store, pool_file, monkeypatch):
+    monkeypatch.setattr(pool, "POOL", pool_file)
+    monkeypatch.setattr(store, "load_config", lambda: dict(CFG))
+    store.save_rains([RAIN])
+    monkeypatch.setattr(mainmod.weather, "should_rain", lambda *a: (False, "没下"))
+    monkeypatch.setattr(relay, "fetch", lambda env, since: [msg(1, {"t": "v", "id": "20261126-1431-1", "v": "好吃"})])
+    monkeypatch.delenv("GITHUB_TOKEN", raising=False)
+    monkeypatch.setenv("NTFY_TOPIC", "abc")
+    mainmod.main([])
+    assert store.load_feedback()[0]["verdict"] == "好吃"
+    assert store.load_relay()["since"] == "m1"

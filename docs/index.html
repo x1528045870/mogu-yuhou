@@ -2,51 +2,67 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>蘑菇·雨后</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* VOICE: 安静、轻，像雨后林子里蹲下来看
-   IDEA: 一页采集图鉴，上面是刚采的篮子，下面是收集册
-   PICTURE: 篮子本身就是画面，每朵配一个手绘标本
-   COLOUR and TYPE: 苔绿为主、湿树皮棕为辅、菌盖橙点睛；标题站酷小薇，正文思源黑体
-   LAYOUT: 窄栏单列，篮子在最上，图鉴、往日的雨依次往下，手机上一样 */
+/* VOICE: 安静、轻，像雨后蹲下来看
+   IDEA: 雨停了，地上冒出几朵，亲手采进篮子；采完就到底
+   PICTURE: 一小片湿地面，蘑菇站在上面轻轻晃，点一下就采走
+   COLOUR and TYPE: 苔绿为主、湿土棕为辅、菌盖橙点睛；标题站酷小薇，正文思源黑体
+   LAYOUT: 窄栏单列：天 → 地 → 篮子 → 图鉴 → 以前的雨；「喂一口」浮在右下 */
 :root{color-scheme:light dark;
   --bg:light-dark(#ffffff,#121611);--ink:light-dark(#22261f,#e8ece2);--soft:light-dark(#5f6656,#a9b29d);
-  --moss:light-dark(#3d5a2a,#8fb36a);--bark:light-dark(#5b4636,#c7ab92);--cap:light-dark(#d9572a,#f08a4b);
-  --line:light-dark(#e3e6dd,#262c22);--card:light-dark(#f6f7f3,#181d16)}
+  --moss:light-dark(#3d5a2a,#8fb36a);--moss2:light-dark(#5d7d3f,#56723c);--soil:light-dark(#6e5642,#2b231c);
+  --cap:light-dark(#d9572a,#f08a4b);--mist:light-dark(#e6ede0,#1a2318);--line:light-dark(#e3e6dd,#262c22);--card:light-dark(#f6f7f3,#181d16)}
 :root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
 *{box-sizing:border-box;min-width:0}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;overflow-x:clip}
-a{color:inherit}
-.wrap{max-width:760px;margin:0 auto;padding:0 max(5vw,16px)}
-header{background:var(--moss);color:light-dark(#fff,#121611);position:relative;overflow:hidden}
-header .wrap{padding-block:clamp(28px,6vw,56px) 28px;position:relative}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;overflow-x:clip;padding-bottom:calc(96px + env(safe-area-inset-bottom))}
+a{color:inherit}button{font:inherit;color:inherit}
+.wrap{max-width:720px;margin:0 auto;padding:0 max(5vw,16px)}
+.sky{background:var(--moss);color:light-dark(#fff,#121611);position:relative;overflow:hidden;padding-top:env(safe-area-inset-top)}
+.sky .wrap{padding-block:clamp(28px,6vw,52px) 24px;position:relative}
 h1{font:400 clamp(36px,7vw,52px)/1.05 "ZCOOL XiaoWei",serif;margin:0}
-.when{margin:10px 0 0;font-size:16px;opacity:.9}
-.drops{position:absolute;inset:0;pointer-events:none}
-.drops i{position:absolute;top:-20px;width:1.5px;height:14px;border-radius:2px;background:currentColor;opacity:.35;animation:fall 2.6s linear infinite}
-@keyframes fall{to{transform:translateY(240px)}}
-@media(prefers-reduced-motion:reduce){.drops{display:none}}
-h2{font:400 26px/1.2 "ZCOOL XiaoWei",serif;margin:40px 0 14px}
-.basket{display:grid;gap:14px;margin-top:-8px}
-.m{display:grid;grid-template-columns:72px minmax(0,1fr);gap:16px;background:var(--card);border-radius:14px;padding:18px}
-.m svg{width:72px;height:72px}
+.when{margin:10px 0 0;font-size:16px;opacity:.92;min-height:1.6em}
+.drops{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .9s}
+.raining .drops{opacity:1}
+.drops i{position:absolute;top:-20px;width:1.5px;height:14px;border-radius:2px;background:currentColor;opacity:.4;animation:fall 1.4s linear infinite}
+@keyframes fall{to{transform:translateY(220px)}}
+.ground{position:relative;height:170px;margin:0 calc(-1*max(5vw,16px));overflow:hidden;
+  background:linear-gradient(to bottom,var(--mist),var(--bg) 58%,var(--bg) 66%,var(--moss2) 66% 71%,var(--soil) 71%)}
+.ground.empty{height:110px}
+.shroom{position:absolute;bottom:26px;transform:translateX(-50%);background:none;border:0;padding:0 6px;cursor:pointer;text-align:center;
+  transition:transform .45s cubic-bezier(.3,1.4,.5,1),opacity .45s;-webkit-tap-highlight-color:transparent}
+.shroom svg{width:72px;height:72px;display:block;transform-origin:50% 90%;animation:sway 3.2s ease-in-out infinite alternate}
+.shroom span{display:block;font-size:13px;line-height:20px;color:light-dark(#f3ebdf,#cdbfa9);margin-top:2px}
+.shroom:focus-visible{outline:2px solid var(--cap);outline-offset:2px;border-radius:8px}
+.shroom.up{transform:translate(-50%,-70px) scale(.55);opacity:0}
+@keyframes sway{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+.tuft{position:absolute;bottom:34%;width:14px;height:10px;border-radius:50% 50% 0 0;background:var(--moss2)}
+.hint{margin:12px 0 0;color:var(--soft);font-size:15px}
+h2{font:400 26px/1.2 "ZCOOL XiaoWei",serif;margin:36px 0 14px}
+.basket{display:grid;gap:14px}
+.m{display:grid;grid-template-columns:60px minmax(0,1fr);gap:14px;background:var(--card);border-radius:14px;padding:18px}
+.m>svg{width:60px;height:60px}
+.m.new{animation:rise .5s ease-out}
+@keyframes rise{from{transform:translateY(14px);opacity:0}}
 .meta{font-size:13px;color:var(--soft);display:flex;flex-wrap:wrap;gap:4px 10px}
 .edible{color:var(--moss);font-weight:500}.edible.sniff{color:var(--cap)}
-.m h3{font-size:18px;line-height:1.35;margin:4px 0 6px;font-weight:500}
+.seen{color:var(--moss)}
+.m h3{font-size:18px;line-height:1.4;margin:4px 0 6px;font-weight:500}
 .m h3 a{text-decoration:none;border-bottom:1px solid var(--line)}
 .m h3 a:hover{border-color:var(--moss)}
 .m p{margin:0}.why{color:var(--soft);margin-top:6px!important}
 .vote{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.vote a{font-size:14px;text-decoration:none;padding:8px 14px;min-height:40px;display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px}
-.vote a:hover,.vote a:focus-visible{border-color:var(--moss);outline:none}
-.vote a.on{background:var(--moss);color:var(--bg);border-color:var(--moss)}
-.empty{padding:28px 0;color:var(--soft)}
+.r{font-size:14px;text-decoration:none;padding:8px 14px;min-height:40px;display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;background:none;cursor:pointer}
+.r:hover,.r:focus-visible{border-color:var(--moss);outline:none}
+.r.on{background:var(--moss);color:var(--bg);border-color:var(--moss)}
+.end{color:var(--soft);margin:16px 0 0}
 .guide{display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:12px}
-.g{border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center}
-.g svg{width:56px;height:56px}.g b{display:block;font-weight:500;margin-top:4px}
+.g{border:1px solid var(--line);border-radius:12px;padding:14px 8px;text-align:center;background:none;cursor:pointer}
+.g:hover,.g:focus-visible{border-color:var(--moss);outline:none}
+.g svg{width:52px;height:52px}.g b{display:block;font-weight:500;margin-top:2px}
 .g small{display:block;color:var(--soft);font-size:13px;line-height:1.4}
 .g .n{color:var(--moss);font-size:14px;margin-top:6px}
 .g.none svg{opacity:.25;filter:grayscale(1)}
@@ -54,96 +70,224 @@ h2{font:400 26px/1.2 "ZCOOL XiaoWei",serif;margin:40px 0 14px}
 .past li{border-top:1px solid var(--line);padding:12px 0}
 .past time{font-size:13px;color:var(--soft)}
 .past a{display:block;text-decoration:none;margin-top:2px}.past a span{color:var(--soft)}
-footer{margin:48px 0 40px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
-.feed{background:var(--cap);color:#fff;text-decoration:none;padding:12px 20px;border-radius:999px;min-height:44px;display:inline-flex;align-items:center}
-footer small{color:var(--soft);font-size:13px}
-@media(max-width:600px){.m{grid-template-columns:52px minmax(0,1fr);gap:12px;padding:14px}.m svg{width:52px;height:52px}
-  .vote{gap:6px}.vote a{padding:8px 11px}.g{padding:12px 6px}}
+.foot{margin:40px 0 0;color:var(--soft);font-size:13px}
+.fab{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:calc(18px + env(safe-area-inset-bottom));background:var(--cap);color:#fff;border:0;
+  border-radius:999px;padding:0 22px;min-height:48px;font-size:16px;box-shadow:0 6px 20px rgb(0 0 0/.18);cursor:pointer;z-index:5}
+.fab:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.sheet{position:fixed;inset:0;background:rgb(0 0 0/.38);display:flex;align-items:flex-end;justify-content:center;z-index:10}
+.sheet[hidden]{display:none}
+.panel{background:var(--bg);width:100%;max-width:560px;max-height:82vh;overflow:auto;border-radius:18px 18px 0 0;
+  padding:20px max(5vw,20px) calc(24px + env(safe-area-inset-bottom));animation:up .28s ease-out}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+.panel h3{font:400 24px/1.2 "ZCOOL XiaoWei",serif;margin:0 0 12px;display:flex;justify-content:space-between;align-items:center}
+.x{background:none;border:0;font-size:24px;line-height:1;min-width:44px;min-height:44px;cursor:pointer;color:var(--soft)}
+.fed{margin:6px 0 14px;padding-left:1.2em;color:var(--soft)}.fed li{margin:4px 0}
+.note{font-size:14px;color:var(--soft);background:var(--card);border-radius:10px;padding:10px 12px;margin:0 0 14px}
+label{display:block;font-weight:500;margin-bottom:6px}
+textarea{width:100%;font:16px/1.5 inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;resize:vertical}
+textarea:focus-visible{outline:2px solid var(--moss);outline-offset:1px}
+.primary{margin-top:12px;background:var(--moss);color:var(--bg);border:0;border-radius:999px;min-height:44px;padding:0 24px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+.list{list-style:none;padding:0;margin:0}.list li{border-top:1px solid var(--line);padding:10px 0}
+.list small{color:var(--soft)}
+.toast{position:fixed;left:50%;bottom:calc(80px + env(safe-area-inset-bottom));transform:translate(-50%,20px);background:var(--ink);color:var(--bg);
+  padding:10px 16px;border-radius:999px;font-size:14px;opacity:0;transition:.25s;pointer-events:none;z-index:20;max-width:90vw;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.sheet:not([hidden])~.toast{bottom:auto;top:calc(16px + env(safe-area-inset-top))}
+@media(max-width:600px){.m{grid-template-columns:46px minmax(0,1fr);gap:12px;padding:14px}.m>svg{width:46px;height:46px}
+  .vote{gap:6px}.r{padding:8px 11px}.g{padding:12px 6px}.shroom svg{width:64px;height:64px}}
+@media(prefers-reduced-motion:reduce){.drops i,.shroom svg{animation:none}.shroom,.panel,.m.new{transition:none;animation:none}}
 </style>
 </head>
 <body>
-<header>
+<header class="sky" id="sky">
   <div class="drops" id="drops"></div>
-  <div class="wrap">
-    <h1>蘑菇·雨后</h1>
-    <p class="when" id="when">正在看天……</p>
-  </div>
+  <div class="wrap"><h1>蘑菇·雨后</h1><p class="when" id="when">&nbsp;</p></div>
 </header>
 <main class="wrap">
-  <h2 id="basket-title">这场雨</h2>
-  <section class="basket" id="basket"></section>
+  <div class="ground" id="ground" aria-label="地面"></div>
+  <p class="hint" id="hint" aria-live="polite"></p>
+  <section id="basketSec" hidden>
+    <h2 id="basketTitle">篮子</h2>
+    <div class="basket" id="basket"></div>
+    <p class="end" id="end"></p>
+  </section>
   <h2>图鉴</h2>
-  <section class="guide" id="guide"></section>
-  <h2>以前的雨</h2>
-  <ul class="past" id="past"></ul>
-  <footer id="foot"></footer>
+  <div class="guide" id="guide"></div>
+  <section id="pastSec" hidden><h2>以前的雨</h2><ul class="past" id="past"></ul></section>
+  <p class="foot" id="foot"></p>
 </main>
+<button class="fab" id="feedBtn" type="button">喂一口</button>
+<div class="sheet" id="sheet" hidden><div class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="sheetTitle"></div></div>
+<div class="toast" id="toast" role="status"></div>
 <script>
 {
-const SPECIES=[
-  ["猴头菇","值得慢读的长文"],["鸡枞","新鲜事"],["竹荪","好看的东西"],["松茸","稀有的好东西"],["野蘑菇","喂过的范围之外"]];
+const SPECIES=[["猴头菇","慢读的长文","值得慢读的长文、论文、深度报道"],["鸡枞","新鲜事","新鲜事、新品、新消息"],["竹荪","好看的东西","好看的东西，比如图、作品、设计"],["松茸","稀有的好东西","稀有的好东西，一周最多一朵"],["野蘑菇","范围之外的","从喂过的范围之外带回来的"]];
 const VERDICTS=["好吃","难吃","还想要","别再带"];
-const SHAPE={ // 菌盖颜色、菌盖形状、菌柄颜色
-  "猴头菇":["#f1ede4","ball","#d8d1c2"],"鸡枞":["#8a7a66","point","#efe9dd"],
-  "竹荪":["#7a6a4f","net","#fbf8f1"],"松茸":["#7b5536","dome","#efe3cf"],"野蘑菇":["#e0662f","dome","#f5efe4"]};
+const NUM=["零","一","两","三"];
+const SHAPE={"猴头菇":["#f1ede4","ball","#d8d1c2"],"鸡枞":["#8a7a66","point","#efe9dd"],"竹荪":["#7a6a4f","net","#fbf8f1"],"松茸":["#7b5536","dome","#efe3cf"],"野蘑菇":["#e0662f","dome","#f5efe4"]};
+const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const safe=u=>/^https:\/\//.test(String(u||""))?u:"";
+const safe=u=>/^https:\/\//.test(String(u||""))?String(u):"";
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const ls={get(k,d){try{const v=localStorage.getItem("mogu."+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem("mogu."+k,JSON.stringify(v))}catch(e){}}};
+
+/* 钥匙：通知链接里的 #k=…，存下来后从地址栏抹掉 */
+const hp=new URLSearchParams(location.hash.slice(1));
+if(hp.get("k")){ls.set("key",{k:hp.get("k"),s:safe(hp.get("s"))||"https://ntfy.sh"});history.replaceState(null,"",location.pathname+location.search)}
+const KEY=ls.get("key",null);
+const outbox=ls.get("outbox",[]);
+async function flush(){
+  if(!KEY)return false;
+  while(outbox.length){
+    try{const r=await fetch(`${KEY.s.replace(/\/$/,"")}/${encodeURIComponent(KEY.k)}`,{method:"POST",body:JSON.stringify(outbox[0])});if(!r.ok)return false}
+    catch(e){return false}
+    outbox.shift();ls.set("outbox",outbox);
+  }
+  return true;
+}
+function send(ev){if(!KEY)return;outbox.push(ev);ls.set("outbox",outbox);flush()}
+
 function specimen(name){
   const [cap,shape,stem]=SHAPE[name]||SHAPE["鸡枞"];
-  const ground='<ellipse cx="36" cy="64" rx="22" ry="4" fill="currentColor" opacity=".12"/>';
-  let body;
-  if(shape==="ball"){
-    body=`<rect x="31" y="46" width="10" height="16" rx="4" fill="${stem}"/><circle cx="36" cy="34" r="20" fill="${cap}"/>`+
-      Array.from({length:9},(_,i)=>`<path d="M${22+i*3.5} ${26+(i%2)*4}v12" stroke="#cfc6b3" stroke-width="1.4" stroke-linecap="round"/>`).join("");
-  }else if(shape==="point"){
-    body=`<rect x="32" y="32" width="8" height="30" rx="3" fill="${stem}"/><path d="M14 36Q36 6 58 36Q36 30 14 36Z" fill="${cap}"/>`;
-  }else if(shape==="net"){
-    body=`<path d="M22 40L18 62H54L50 40Z" fill="none" stroke="${stem}" stroke-width="1.2" stroke-dasharray="2 2"/><rect x="31" y="26" width="10" height="36" rx="4" fill="${stem}" stroke="#e2dccd"/><path d="M24 30Q36 6 48 30Z" fill="${cap}"/>`;
-  }else{
-    body=`<rect x="29" y="34" width="14" height="28" rx="5" fill="${stem}"/><path d="M10 38Q36 4 62 38Z" fill="${cap}"/>`+
-      (name==="野蘑菇"?'<circle cx="26" cy="27" r="2.6" fill="#fff"/><circle cx="40" cy="20" r="2.2" fill="#fff"/><circle cx="48" cy="30" r="2.4" fill="#fff"/>':"");
-  }
-  return `<svg viewBox="0 0 72 72" role="img" aria-label="${esc(name)}">${ground}${body}</svg>`;
+  let b;
+  if(shape==="ball")b=`<rect x="31" y="46" width="10" height="16" rx="4" fill="${stem}"/><circle cx="36" cy="34" r="20" fill="${cap}"/>`+Array.from({length:9},(_,i)=>`<path d="M${22+i*3.5} ${26+(i%2)*4}v12" stroke="#cfc6b3" stroke-width="1.4" stroke-linecap="round"/>`).join("");
+  else if(shape==="point")b=`<rect x="32" y="32" width="8" height="30" rx="3" fill="${stem}"/><path d="M14 36Q36 6 58 36Q36 30 14 36Z" fill="${cap}"/>`;
+  else if(shape==="net")b=`<path d="M22 40L18 62H54L50 40Z" fill="none" stroke="${stem}" stroke-width="1.2" stroke-dasharray="2 2"/><rect x="31" y="26" width="10" height="36" rx="4" fill="${stem}" stroke="#e2dccd"/><path d="M24 30Q36 6 48 30Z" fill="${cap}"/>`;
+  else b=`<rect x="29" y="34" width="14" height="28" rx="5" fill="${stem}"/><path d="M10 38Q36 4 62 38Z" fill="${cap}"/>`+(name==="野蘑菇"?'<circle cx="26" cy="27" r="2.6" fill="#fff"/><circle cx="40" cy="20" r="2.2" fill="#fff"/><circle cx="48" cy="30" r="2.4" fill="#fff"/>':"");
+  return `<svg viewBox="0 0 72 72" aria-hidden="true"><ellipse cx="36" cy="64" rx="22" ry="4" fill="currentColor" opacity=".12"/>${b}</svg>`;
 }
 const fmt=iso=>{const d=new Date(iso);return isNaN(d)?"":d.toLocaleString("zh-CN",{month:"long",day:"numeric",hour:"2-digit",minute:"2-digit"})};
-const host=location.hostname, owner=host.endsWith(".github.io")?host.split(".")[0]:"", repo=location.pathname.split("/").filter(Boolean)[0]||"";
-const bases=owner&&repo?[`https://raw.githubusercontent.com/${owner}/${repo}/main/docs/data/`,"data/"]:["data/"];
-async function load(name){
-  for(const b of bases){try{const r=await fetch(b+name+"?t="+Date.now());if(r.ok)return await r.json()}catch(e){}}
-  return [];
-}
-function card(m,votes){
-  const v=votes[m.id];
-  const btns=VERDICTS.filter(x=>safe(m.links?.[x])).map(x=>`<a href="${esc(m.links[x])}" target="_blank" rel="noopener" class="${v===x?"on":""}">${x}</a>`).join("");
-  const url=safe(m.url);
-  return `<article class="m">${specimen(m.species)}<div>
-    <div class="meta"><span>${esc(m.species)}</span><span class="edible ${m.edible==="能吃"?"":"sniff"}">${m.edible==="能吃"?"能吃":"先闻闻"}</span><span>${esc(m.source)}</span></div>
-    <h3>${url?`<a href="${esc(url)}" target="_blank" rel="noopener">${esc(m.title)}</a>`:esc(m.title)}</h3>
+function ago(iso){const h=(Date.now()-new Date(iso))/36e5;if(h<1)return"刚刚";if(h<24)return`${Math.floor(h)} 小时前`;return`${Math.floor(h/24)} 天前`}
+let toastT;function toast(t){const el=$("toast");el.textContent=t;el.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove("show"),2400)}
+
+const host=location.hostname,owner=host.endsWith(".github.io")?host.split(".")[0]:"",repo=location.pathname.split("/").filter(Boolean)[0]||"";
+const RAW=owner&&repo?`https://raw.githubusercontent.com/${owner}/${repo}/main/`:"";
+async function getJSON(name,d){for(const u of RAW?[RAW+"docs/data/"+name,"data/"+name]:["data/"+name]){try{const r=await fetch(u+"?t="+Date.now());if(r.ok)return await r.json()}catch(e){}}return d}
+async function getFeed(){try{const r=await fetch((RAW||"/")+"feed.yaml?t="+Date.now());if(!r.ok)return[];const out=[];let on=false;
+  for(const line of (await r.text()).split("\n")){if(/^feed:/.test(line)){on=true;continue}if(on){const m=line.match(/^\s+-\s+(.*)$/);if(m){let v=m[1].trim();if(v.startsWith('"')){try{v=JSON.parse(v)}catch(e){}}out.push(v)}else if(/^\S/.test(line))on=false}}
+  return out}catch(e){return[]}}
+
+let rains=[],status={},feedLines=[],last=null;
+const picked=new Set(ls.get("picked",[])),opened=new Set(ls.get("opened",[])),votes=ls.get("votes",{});
+const isPicked=m=>{
+  if(picked.has(m.id))return true;
+  if(!last||!last.mushrooms.includes(m))return true;            // 以前的雨都算采过
+  return !!last.picked_at&&!last.mushrooms.some(x=>picked.has(x.id)); // 在别的设备上采过
+};
+const issue=t=>owner&&repo?`https://github.com/${owner}/${repo}/issues/new?title=${encodeURIComponent(t)}&body=${encodeURIComponent("直接提交就行。")}`:"";
+
+function card(m,isNew){
+  const v=votes[m.id]||"",url=safe(m.url);
+  const reacts=VERDICTS.map(x=>KEY?`<button type="button" class="r${v===x?" on":""}" data-v="${x}" data-id="${esc(m.id)}" aria-pressed="${v===x}">${x}</button>`
+    :(issue(x+" "+m.id)?`<a class="r" href="${esc(issue(x+" "+m.id))}" target="_blank" rel="noopener">${x}</a>`:"")).join("");
+  return `<article class="m${isNew?" new":""}" id="m-${esc(m.id)}">${specimen(m.species)}<div>
+    <div class="meta"><span>${esc(m.species)}</span><span class="edible${m.edible==="能吃"?"":" sniff"}" title="${m.edible==="能吃"?"可靠来源，能核实":"单一来源或观点，自己判断"}">${m.edible==="能吃"?"能吃":"先闻闻"}</span><span>${esc(m.source)}</span>${opened.has(m.id)?'<span class="seen">看过了</span>':""}</div>
+    <h3>${url?`<a href="${esc(url)}" target="_blank" rel="noopener" data-open="${esc(m.id)}">${esc(m.title)}</a>`:esc(m.title)}</h3>
     <p>${esc(m.what)}</p><p class="why">${esc(m.why)}</p>
-    ${btns?`<div class="vote">${btns}</div>`:""}</div></article>`;
+    ${reacts?`<div class="vote">${reacts}</div>`:""}</div></article>`;
 }
-async function render(){
-  const [rains,fb,status]=await Promise.all([load("rains.json"),load("feedback.json"),load("status.json")]);
-  const votes={};(Array.isArray(fb)?fb:[]).forEach(f=>votes[f.id]=f.verdict);
-  const list=Array.isArray(rains)?rains:[];
-  const last=list[list.length-1];
-  document.getElementById("when").textContent=last?`上一场雨：${fmt(last.at)}`:"还没下过雨。雨会在说不准的时候来。";
-  const basket=document.getElementById("basket");
-  basket.innerHTML=last?last.mushrooms.map(m=>card(m,votes)).join(""):`<p class="empty">篮子还空着。</p>`;
-  const count={};list.forEach(r=>r.mushrooms.forEach(m=>count[m.species]=(count[m.species]||0)+1));
-  document.getElementById("guide").innerHTML=SPECIES.map(([n,d])=>`<div class="g ${count[n]?"":"none"}">${specimen(n)}<b>${n}</b><small>${d}</small><div class="n">${count[n]?`采到 ${count[n]} 朵`:"还没遇到"}</div></div>`).join("");
-  const past=list.slice(0,-1).reverse();
-  document.getElementById("past").innerHTML=past.length?past.map(r=>`<li><time>${esc(fmt(r.at))}</time>${r.mushrooms.map(m=>{const u=safe(m.url);return u?`<a href="${esc(u)}" target="_blank" rel="noopener"><span>${esc(m.species)}｜</span>${esc(m.title)}</a>`:""}).join("")}</li>`).join(""):`<li class="empty">只下过这一场，或者一场都还没下。</li>`;
-  const foot=document.getElementById("foot");
+
+function render(newId){
+  last=rains[rains.length-1]||null;
+  const fresh=last?last.mushrooms.filter(m=>!isPicked(m)):[];
+  const g=$("ground");
+  if(fresh.length){
+    g.className="ground";
+    g.innerHTML=fresh.map((m,i)=>{const x=(i+1)/(fresh.length+1)*100+((i*37)%11-5);
+      return `<button type="button" class="shroom" style="left:${x.toFixed(1)}%" data-pick="${esc(m.id)}" aria-label="采一朵${esc(m.species)}">${specimen(m.species).replace("<svg",`<svg style="animation-delay:-${(i*.9).toFixed(1)}s"`)}<span>${esc(m.species)}</span></button>`}).join("");
+    $("hint").textContent=`冒了${NUM[fresh.length]||fresh.length}朵，点一下采。`;
+  }else{
+    g.className="ground empty";
+    g.innerHTML=[14,33,61,82].map(x=>`<i class="tuft" style="left:${x}%"></i>`).join("");
+    $("hint").textContent=last?"地上没有新蘑菇。雨会在说不准的时候来。":"还没下过雨。雨会在说不准的时候来。";
+  }
+  const inBasket=last?last.mushrooms.filter(m=>isPicked(m)):[];
+  $("basketSec").hidden=!inBasket.length;
+  $("basketTitle").textContent=fresh.length||last&&Date.now()-new Date(last.at)<864e5?"这场雨的篮子":"上一场雨的篮子";
+  $("basket").innerHTML=inBasket.map(m=>card(m,m.id===newId)).join("");
+  $("end").textContent=last&&!fresh.length?"都采完了。下一场雨说不准什么时候来。":"";
+  if(newId&&!reduce){const el=$("m-"+newId);el&&el.scrollIntoView({block:"nearest",behavior:"smooth"})}
+
+  const all=rains.flatMap(r=>r.mushrooms).filter(isPicked),count={};
+  all.forEach(m=>count[m.species]=(count[m.species]||0)+1);
+  $("guide").innerHTML=SPECIES.map(([n,d])=>`<button type="button" class="g${count[n]?"":" none"}" data-species="${n}">${specimen(n)}<b>${n}</b><small>${d}</small><div class="n">${count[n]?`采到 ${count[n]} 朵`:"还没遇到"}</div></button>`).join("");
+
+  const past=rains.slice(0,-1).reverse();
+  $("pastSec").hidden=!past.length;
+  $("past").innerHTML=past.map(r=>`<li><time>${esc(fmt(r.at))}</time>${r.mushrooms.map(m=>{const u=safe(m.url);return u?`<a href="${esc(u)}" target="_blank" rel="noopener" data-open="${esc(m.id)}"><span>${esc(m.species)}｜</span>${esc(m.title)}</a>`:""}).join("")}</li>`).join("");
+
   const left=status&&status.source==="pool"&&Number.isFinite(status.pool_left)?`池子里还剩 ${status.pool_left} 朵。`:"";
-  if(owner&&repo){
-    const feed=`https://github.com/${owner}/${repo}/issues/new?title=${encodeURIComponent("喂 ")}&body=${encodeURIComponent("在标题「喂」后面写你想让蘑菇从哪里长出来。")}`;
-    foot.innerHTML=`<a class="feed" href="${esc(feed)}" target="_blank" rel="noopener">喂一口</a><small>喂的东西会在下一次看天时收进去。${esc(left)}</small>`;
-  }else if(left){foot.innerHTML=`<small>${esc(left)}</small>`}
+  $("foot").textContent=left+(owner&&!KEY?" 从推送里点进来，就能在这里直接反馈和喂。":"");
 }
-const drops=document.getElementById("drops");
-drops.innerHTML=Array.from({length:22},()=>`<i style="left:${(Math.random()*100).toFixed(1)}%;animation-delay:${(Math.random()*2.6).toFixed(2)}s;animation-duration:${(2+Math.random()*1.4).toFixed(2)}s"></i>`).join("");
-render();
+
+function sky(){
+  const fresh=last?last.mushrooms.filter(m=>!isPicked(m)):[];
+  const when=$("when"),s=$("sky");
+  if(fresh.length){
+    if(reduce){when.textContent=`雨停了 · ${fmt(last.at)}`;return}
+    s.classList.add("raining");when.textContent="下雨了……";
+    setTimeout(()=>{s.classList.remove("raining");when.textContent=`雨停了 · ${fmt(last.at)}`},2400);
+  }else when.textContent=last?`上一场雨：${ago(last.at)}（${fmt(last.at)}）`:"还没下过雨";
+}
+
+function pick(btn){
+  const m=last.mushrooms.find(x=>x.id===btn.dataset.pick);if(!m||btn.disabled)return;
+  btn.disabled=true;btn.classList.add("up");
+  if(!last.mushrooms.some(x=>picked.has(x.id)))send({t:"p",rain:last.id});
+  picked.add(m.id);ls.set("picked",[...picked]);
+  setTimeout(()=>render(m.id),reduce?0:450);
+}
+
+function openSheet(html,focusSel){
+  $("panel").innerHTML=html;$("sheet").hidden=false;
+  const f=$("panel").querySelector(focusSel||"button,textarea,a");f&&f.focus();
+}
+function closeSheet(){$("sheet").hidden=true;$("feedBtn").focus()}
+const head=t=>`<h3 id="sheetTitle">${t}<button type="button" class="x" data-close aria-label="关上">×</button></h3>`;
+
+function feedSheet(){
+  const pool=status&&status.source==="pool"?'<p class="note">原型阶段，蘑菇来自事先采好的池子。喂的东西会先记下来，等切到联网现采才真正起作用。</p>':"";
+  const fed=feedLines.length?`<p style="margin:0">它吃过这些：</p><ul class="fed">${feedLines.map(l=>`<li>${esc(l)}</li>`).join("")}</ul>`:"";
+  openSheet(head("喂一口")+fed+pool+`<label for="feedText">想让蘑菇从哪里长出来？</label>
+    <textarea id="feedText" rows="3" maxlength="120" placeholder="比如：想看点关于城市夜晚的东西"></textarea>
+    <button type="button" class="primary" id="feedGo">${KEY?"喂":"去 GitHub 喂"}</button>`,"textarea");
+}
+function doFeed(){
+  const t=$("feedText").value.trim();if(!t){$("feedText").focus();return}
+  if(KEY){send({t:"f",text:t});feedLines.push(t+"（刚喂，下一次看天时收进去）");closeSheet();toast("喂进去了。")}
+  else{const u=issue("喂 "+t);if(u)window.open(u,"_blank","noopener");closeSheet()}
+}
+function speciesSheet(name){
+  const desc=(SPECIES.find(s=>s[0]===name)||[,,""])[2];
+  const got=rains.flatMap(r=>r.mushrooms.map(m=>({m,at:r.at}))).filter(x=>x.m.species===name&&isPicked(x.m)).reverse();
+  const list=got.length?`<ul class="list">${got.map(({m,at})=>{const u=safe(m.url);return `<li><small>${esc(fmt(at))} · ${m.edible==="能吃"?"能吃":"先闻闻"}</small><br>${u?`<a href="${esc(u)}" target="_blank" rel="noopener" data-open="${esc(m.id)}">${esc(m.title)}</a>`:esc(m.title)}</li>`}).join("")}</ul>`
+    :`<p class="note">还没遇到。它会在某一场雨后冒出来。</p>`;
+  openSheet(head(name)+`<p style="margin:0 0 12px;color:var(--soft)">${esc(desc)}</p>`+list);
+}
+
+document.addEventListener("click",e=>{
+  const t=e.target.closest("[data-pick],[data-v],[data-open],[data-species],[data-close],#feedBtn,#feedGo");
+  if(!t){if(e.target===$("sheet"))closeSheet();return}
+  if(t.dataset.pick)pick(t);
+  else if(t.dataset.v){const id=t.dataset.id,v=votes[id]===t.dataset.v?"":t.dataset.v;votes[id]=v;ls.set("votes",votes);send({t:"v",id,v});
+    t.parentElement.querySelectorAll(".r").forEach(b=>{b.classList.toggle("on",b.dataset.v===v);b.setAttribute("aria-pressed",b.dataset.v===v)});
+    toast(v?`记下了：${v}。之后的雨会参考。`:"撤回了。")}
+  else if(t.dataset.open){const id=t.dataset.open;if(!opened.has(id)){opened.add(id);ls.set("opened",[...opened]);send({t:"o",id});
+    const meta=document.querySelector(`#m-${CSS.escape(id)} .meta`);if(meta&&!meta.querySelector(".seen"))meta.insertAdjacentHTML("beforeend",'<span class="seen">看过了</span>')}}
+  else if(t.dataset.species)speciesSheet(t.dataset.species);
+  else if("close" in t.dataset)closeSheet();
+  else if(t.id==="feedBtn")feedSheet();
+  else if(t.id==="feedGo")doFeed();
+});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("sheet").hidden)closeSheet()});
+
+$("drops").innerHTML=Array.from({length:26},()=>`<i style="left:${(Math.random()*100).toFixed(1)}%;animation-delay:${(Math.random()*1.4).toFixed(2)}s"></i>`).join("");
+(async()=>{
+  const [r,s,fb,feed]=await Promise.all([getJSON("rains.json",[]),getJSON("status.json",{}),getJSON("feedback.json",[]),getFeed()]);
+  rains=Array.isArray(r)?r.filter(x=>x&&Array.isArray(x.mushrooms)):[];status=s&&typeof s==="object"?s:{};feedLines=feed;
+  (Array.isArray(fb)?fb:[]).forEach(f=>{if(f&&f.id&&!(f.id in votes))votes[f.id]=f.verdict});
+  render();sky();flush();
+})();
 }
 </script>
 </body>

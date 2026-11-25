@@ -9,6 +9,7 @@ DATA = ROOT / "docs" / "data"
 RAINS = DATA / "rains.json"
 FEEDBACK = DATA / "feedback.json"
 STATUS = DATA / "status.json"
+RELAY = DATA / "relay.json"
 CONFIG = ROOT / "config.yaml"
 FEED = ROOT / "feed.yaml"
 
@@ -43,6 +44,14 @@ def save_feedback(items):
 
 def save_status(status):
     _write_json(STATUS, status)
+
+
+def load_relay():
+    return _read_json(RELAY, {})
+
+
+def save_relay(state):
+    _write_json(RELAY, state)
 
 
 def load_config():

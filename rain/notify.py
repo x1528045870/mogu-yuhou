@@ -6,6 +6,7 @@ from email.message import EmailMessage
 import requests
 
 from . import VERDICTS
+from .relay import page_link
 
 NUM = {1: "一", 2: "两", 3: "三"}
 
@@ -56,23 +57,32 @@ def basket_html(rain, page_url=""):
     )
 
 
+def teaser_html(rain, page):
+    e = html.escape
+    return (
+        '<div style="font-family:-apple-system,PingFang SC,Microsoft YaHei,sans-serif;max-width:560px;color:#2f2a22">'
+        f'<p style="font-size:17px">{e(preview(rain))}</p>'
+        f'<p><a href="{e(page)}" style="display:inline-block;background:#3d5a2a;color:#fff;text-decoration:none;'
+        'padding:10px 18px;border-radius:999px">去采蘑菇</a></p></div>'
+    )
+
+
 def send_ntfy(rain, cfg, env, post=requests.post):
     topic = env.get("NTFY_TOPIC")
     if not topic:
         return "跳过（没配 NTFY_TOPIC）"
     server = (env.get("NTFY_SERVER") or "https://ntfy.sh").rstrip("/")
-    page = cfg.get("page_url") or ""
+    page = page_link(cfg, env)
     ms = rain["mushrooms"]
     if page:
         message, click = preview(rain), page
     else:  # 没有网页时，把标题也放进通知里
         message = preview(rain) + "\n" + "\n".join(f"{m['species']}｜{m['title']}" for m in ms)
         click = ms[0]["url"]
-    actions = []
-    if page:
-        actions.append({"action": "view", "label": "打开篮子", "url": page, "clear": True})
-    for m in ms[: 3 - len(actions)]:
-        actions.append({"action": "view", "label": m["species"], "url": m["url"]})
+    if page:  # 只给一个入口：去网页上采
+        actions = [{"action": "view", "label": "去采蘑菇", "url": page, "clear": True}]
+    else:
+        actions = [{"action": "view", "label": m["species"], "url": m["url"]} for m in ms[:3]]
     body = {"topic": topic, "title": "蘑菇·雨后", "message": message, "tags": ["mushroom"], "click": click, "actions": actions}
     headers = {"Authorization": f"Bearer {env['NTFY_TOKEN']}"} if env.get("NTFY_TOKEN") else {}
     resp = post(server, json=body, headers=headers, timeout=30)
@@ -84,8 +94,9 @@ def send_serverchan(rain, cfg, env, post=requests.post):
     if not key:
         return "跳过（没配 SERVERCHAN_KEY）"
     n = NUM.get(len(rain["mushrooms"]), len(rain["mushrooms"]))
-    page = cfg.get("page_url") or ""
-    desp = basket_markdown(rain) + (f"\n\n[打开篮子和图鉴]({page})" if page else "")
+    page = page_link(cfg, env)
+    # 有网页时只预告，不剧透：蘑菇要到网页上亲手采。没网页才把整篮内容写进消息。
+    desp = f"{preview(rain)}\n\n[去采蘑菇]({page})" if page else basket_markdown(rain)
     data = {"title": f"蘑菇·雨后｜冒了{n}朵"[:32], "desp": desp, "short": preview(rain)[:64]}
     resp = post(f"https://sctapi.ftqq.com/{key}.send", data=data, timeout=30)
     return f"Server酱 {resp.status_code}"
@@ -99,8 +110,13 @@ def send_email(rain, cfg, env, smtp_cls=smtplib.SMTP_SSL):
     msg["Subject"] = f"蘑菇·雨后｜{preview(rain)}"
     msg["From"] = env["SMTP_USER"]
     msg["To"] = env["MAIL_TO"]
-    msg.set_content(preview(rain) + "\n\n" + "\n\n".join(f"{m['species']}｜{m['title']}\n{m['what']}\n{m['url']}" for m in rain["mushrooms"]))
-    msg.add_alternative(basket_html(rain, cfg.get("page_url") or ""), subtype="html")
+    page = page_link(cfg, env)
+    if page:  # 只预告，去网页上采
+        msg.set_content(f"{preview(rain)}\n\n去采蘑菇：{page}")
+        msg.add_alternative(teaser_html(rain, page), subtype="html")
+    else:
+        msg.set_content(preview(rain) + "\n\n" + "\n\n".join(f"{m['species']}｜{m['title']}\n{m['what']}\n{m['url']}" for m in rain["mushrooms"]))
+        msg.add_alternative(basket_html(rain), subtype="html")
     with smtp_cls(env["SMTP_HOST"], int(env.get("SMTP_PORT") or 465), timeout=30) as s:
         s.login(env["SMTP_USER"], env["SMTP_PASS"])
         s.send_message(msg)
