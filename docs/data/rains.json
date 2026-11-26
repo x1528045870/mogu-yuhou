@@ -1,1 +1,28 @@
-[]
+[
+  {
+    "id": "20261126-1310",
+    "at": "2026-11-26T13:10:00+11:00",
+    "mushrooms": [
+      {
+        "species": "野蘑菇",
+        "title": "Petrichor",
+        "what": "雨后那股土腥味有名字，来自植物分泌的油脂和土壤细菌。",
+        "why": "雨刚停，顺便闻一闻。",
+        "url": "https://metoffice.gov.uk/learning/precipitation/rain/petrichor",
+        "source": "Met Office",
+        "edible": "能吃",
+        "feed": "野",
+        "lost": true,
+        "id": "20261126-1310-1",
+        "links": {
+          "好吃": "https://github.com/x1528045870/mogu-yuhou/issues/new?title=%E5%A5%BD%E5%90%83%2020261126-1310-1&body=%E7%9B%B4%E6%8E%A5%E6%8F%90%E4%BA%A4%E5%B0%B1%E8%A1%8C%EF%BC%8C%E4%B8%8D%E7%94%A8%E5%86%99%E5%88%AB%E7%9A%84%E3%80%82",
+          "难吃": "https://github.com/x1528045870/mogu-yuhou/issues/new?title=%E9%9A%BE%E5%90%83%2020261126-1310-1&body=%E7%9B%B4%E6%8E%A5%E6%8F%90%E4%BA%A4%E5%B0%B1%E8%A1%8C%EF%BC%8C%E4%B8%8D%E7%94%A8%E5%86%99%E5%88%AB%E7%9A%84%E3%80%82",
+          "还想要": "https://github.com/x1528045870/mogu-yuhou/issues/new?title=%E8%BF%98%E6%83%B3%E8%A6%81%2020261126-1310-1&body=%E7%9B%B4%E6%8E%A5%E6%8F%90%E4%BA%A4%E5%B0%B1%E8%A1%8C%EF%BC%8C%E4%B8%8D%E7%94%A8%E5%86%99%E5%88%AB%E7%9A%84%E3%80%82",
+          "别再带": "https://github.com/x1528045870/mogu-yuhou/issues/new?title=%E5%88%AB%E5%86%8D%E5%B8%A6%2020261126-1310-1&body=%E7%9B%B4%E6%8E%A5%E6%8F%90%E4%BA%A4%E5%B0%B1%E8%A1%8C%EF%BC%8C%E4%B8%8D%E7%94%A8%E5%86%99%E5%88%AB%E7%9A%84%E3%80%82"
+        }
+      }
+    ],
+    "source": "pool",
+    "forced": false
+  }
+]
